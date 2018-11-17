@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">追书神器</string>
+    <string-array name="main_tab_text_arr">
+        <item>追书</item>
+        <item>社区</item>
+        <item>发现</item>
+    </string-array>
+</resources>
