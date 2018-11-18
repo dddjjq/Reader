@@ -13,10 +13,15 @@
         android:background="@color/colorMain"
         app:title="@string/app_name"
         app:titleTextColor="#FFFFFF"/>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/main_tab"
+    <com.welson.reader.view.TriangleIndicator
+        android:background="@color/colorMain"
         android:layout_below="@id/main_toolbar"
+        android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorMain"/>
+        android:layout_height="50dp"
+        app:text_size="15sp"
+        app:text_color_not_select="@color/colorTabBefore"
+        app:tab_item_count="3"
+        app:text_color_selected="@color/colorTabSelect"
+        app:indicator_height="0"/>
 </RelativeLayout>

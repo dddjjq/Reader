@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TriangleIndicator">
+        <attr name="text_color_not_select" format="color"/>
+        <attr name="text_color_selected" format="color"/>
+        <attr name="indicator_height" format="integer"/>
+        <attr name="tab_item_count" format="integer"/>
+        <attr name="text_size" format="dimension"/>
+    </declare-styleable>
+</resources>
