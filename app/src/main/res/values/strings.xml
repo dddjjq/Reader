@@ -8,4 +8,9 @@
         <item>社区</item>
         <item>发现</item>
     </string-array>
+    <string name="str_gender_tip1">我们会根据您的喜好</string>
+    <string name="str_gender_tip2">推荐相对应的小说</string>
+    <string name="str_gender_tip3">-请选择您的喜好-</string>
+    <string name="str_gender_male_button">男生小说</string>
+    <string name="str_gender_female_button">女生小说</string>
 </resources>

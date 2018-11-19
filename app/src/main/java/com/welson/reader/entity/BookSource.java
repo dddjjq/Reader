@@ -1,6 +1,18 @@
 package com.welson.reader.entity;
 
 public class BookSource {
+    /**
+     * _id	"56f8da19176d03ac1983fa00"
+     source	"zhuishuvip"
+     name	"优质书源"
+     link	"http://vip.zhuishushenqi.com/toc/56f8da19176d03ac1983fa00"
+     lastChapter	"江南城隐居着大前辈 第2333章 我的愿望就是让胖球大佬体验到我的痛苦"
+     isCharge	false
+     chaptersCount	2340
+     updated	"2018-11-19T01:24:22.319Z"
+     starting	true
+     host	"vip.zhuishushenqi.com"
+     */
     private String _id;
     private String lastChapter;
     private String link;

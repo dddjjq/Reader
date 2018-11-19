@@ -7,4 +7,14 @@ public class BookShelfFragment extends BaseFragment {
     public int setLayout() {
         return R.layout.fragment_bookshelf;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
 }

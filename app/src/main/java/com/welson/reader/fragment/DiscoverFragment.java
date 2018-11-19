@@ -7,4 +7,14 @@ public class DiscoverFragment extends BaseFragment {
     public int setLayout() {
         return R.layout.fragment_discover;
     }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
 }
