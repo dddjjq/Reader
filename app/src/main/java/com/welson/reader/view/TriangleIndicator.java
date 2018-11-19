@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.support.annotation.Nullable;
@@ -31,6 +34,13 @@ public class TriangleIndicator extends LinearLayout {
     private float textSize;
     private List<String> titles;
     private ViewPager viewPager;
+    private Paint mPaint;
+    private Path mPath;
+    private int width;
+    private int triangleHeight;
+    private int triangleWidth;
+    private int initTranslationX;
+    private int translationX;
 
     public TriangleIndicator(Context context) {
         super(context);
@@ -54,17 +64,46 @@ public class TriangleIndicator extends LinearLayout {
         textSize = ta.getDimension(R.styleable.TriangleIndicator_text_size,0);
         ta.recycle();
         setOrientation(HORIZONTAL);
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setColor(Color.parseColor("#FFFFFFFF"));
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setPathEffect(new CornerPathEffect(3));
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         initTab();
+        initTriangle();
+        width = getWidth() - getPaddingStart() - getPaddingEnd();
+        Log.d("dingyl","width1 : " + width);
+        initTranslationX = (getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts/2 - triangleWidth/2 + getPaddingStart();
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
+        canvas.save();
+        canvas.translate(initTranslationX + translationX,getHeight()+1);
+        canvas.drawPath(mPath,mPaint);
+        canvas.restore();
         super.dispatchDraw(canvas);
+    }
+
+    private void initTriangle(){
+        mPath = new Path();
+        triangleWidth = (getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts/6;
+        Log.d("dingyl","getWidth() : " + this.getWidth());
+        triangleHeight = (int)(triangleWidth/2/Math.sqrt(2));
+        mPath.moveTo(0,0);
+        mPath.lineTo(triangleWidth,0);
+        mPath.lineTo(triangleWidth/2,-triangleHeight);
+        mPath.close();
     }
 
     private void initTab(){
@@ -78,7 +117,6 @@ public class TriangleIndicator extends LinearLayout {
             }
             initClickEvent();
         }
-        Log.d("dingyl","initTab");
     }
 
     public void setViewPager(ViewPager viewPager,int position){
@@ -87,7 +125,7 @@ public class TriangleIndicator extends LinearLayout {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-
+                scroll(i,v);
             }
 
             @Override
@@ -103,17 +141,21 @@ public class TriangleIndicator extends LinearLayout {
         setTabSelected(position);
     }
 
+    private void scroll(int position,float offset){
+        translationX = (int)((getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts*(position + offset));
+        invalidate();
+    }
+
     private TextView createTextView(String title){
         TextView textView = new TextView(getContext());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                 , ViewGroup.LayoutParams.MATCH_PARENT);
-        lp.width = getWidth()/tabCounts;
+        lp.width = (getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts;
         textView.setGravity(Gravity.CENTER);
         textView.setText(title);
         textView.setTextColor(textColorNotSelect);
         textView.setTextSize(DensityUtil.px2sp(getContext(),textSize));
         textView.setLayoutParams(lp);
-        Log.d("dingyl","title : " + title);
         return textView;
     }
 
