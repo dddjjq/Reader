@@ -8,29 +8,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class BaseFragment extends Fragment {
+import com.welson.reader.base.BasePresenter;
+import com.welson.reader.base.BaseView;
 
-    private View view;
+public abstract class BaseFragment extends Fragment{
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(setLayout(), container, false);
+        View view = inflater.inflate(setLayout(), container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initView(view);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initData();
     }
 
 
     public abstract int setLayout();
-    public abstract void initView();
+    public abstract void initView(View view);
     public abstract void initData();
 }

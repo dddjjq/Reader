@@ -7,4 +7,8 @@
         <attr name="tab_item_count" format="integer"/>
         <attr name="text_size" format="dimension"/>
     </declare-styleable>
+    <style name="GenderAnim">
+        <item name="android:windowEnterAnimation">@anim/gender_anim_enter</item>
+        <item name="android:windowExitAnimation">@anim/gender_anim_exit</item>
+    </style>
 </resources>

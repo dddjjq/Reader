@@ -1,5 +1,7 @@
 package com.welson.reader.fragment;
 
+import android.view.View;
+
 import com.welson.reader.R;
 
 public class DiscoverFragment extends BaseFragment {
@@ -9,7 +11,7 @@ public class DiscoverFragment extends BaseFragment {
     }
 
     @Override
-    public void initView() {
+    public void initView(View view) {
 
     }
 

@@ -13,4 +13,9 @@
     <string name="str_gender_tip3">-请选择您的喜好-</string>
     <string name="str_gender_male_button">男生小说</string>
     <string name="str_gender_female_button">女生小说</string>
+    <string name="str_bookshelf_add_tip">添加你喜爱的小说</string>
+    <string name="str_bookshelf_add_btn">＋去添加</string>
+
+    <string name="str_bookshelf_title_default">仙都</string>
+    <string name="str_bookshelf_chapter_default">第十八章 转战三万里，纵横五百年...</string>
 </resources>

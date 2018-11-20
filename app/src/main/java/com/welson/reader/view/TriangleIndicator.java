@@ -77,7 +77,6 @@ public class TriangleIndicator extends LinearLayout {
         initTab();
         initTriangle();
         width = getWidth() - getPaddingStart() - getPaddingEnd();
-        Log.d("dingyl","width1 : " + width);
         initTranslationX = (getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts/2 - triangleWidth/2 + getPaddingStart();
     }
 
@@ -97,7 +96,7 @@ public class TriangleIndicator extends LinearLayout {
 
     private void initTriangle(){
         mPath = new Path();
-        triangleWidth = (getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts/6;
+        triangleWidth = (getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts/8;
         Log.d("dingyl","getWidth() : " + this.getWidth());
         triangleHeight = (int)(triangleWidth/2/Math.sqrt(2));
         mPath.moveTo(0,0);

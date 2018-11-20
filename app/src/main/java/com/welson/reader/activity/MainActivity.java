@@ -1,7 +1,10 @@
 package com.welson.reader.activity;
 
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,12 +15,16 @@ import android.view.Menu;
 
 import com.welson.reader.R;
 import com.welson.reader.adapter.MainViewpagerAdapter;
+import com.welson.reader.constant.Constants;
 import com.welson.reader.fragment.BaseFragment;
 import com.welson.reader.fragment.BookShelfFragment;
 import com.welson.reader.fragment.CommunityFragment;
 import com.welson.reader.fragment.DiscoverFragment;
+import com.welson.reader.fragment.GenderSelectFragment;
+import com.welson.reader.util.SharedPreferenceUtil;
 import com.welson.reader.view.TriangleIndicator;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     private DiscoverFragment discoverFragment;
     private ArrayList<BaseFragment> fragments;
     private MainViewpagerAdapter viewpagerAdapter;
+    private GenderSelectFragment genderSelectFragment;
+    private static final int SHOW_GENDER_SELECT = 0x01;
+    private MainHandler handler;
+    private boolean isSelectGender = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         initFragment();
+        initData();
     }
 
     private void initView(){
@@ -65,17 +77,49 @@ public class MainActivity extends AppCompatActivity {
         bookShelfFragment = new BookShelfFragment();
         communityFragment = new CommunityFragment();
         discoverFragment = new DiscoverFragment();
+        genderSelectFragment = new GenderSelectFragment();//这个不需要加入ArrayList
         fragments.add(bookShelfFragment);
         fragments.add(communityFragment);
         fragments.add(discoverFragment);
         viewpagerAdapter = new MainViewpagerAdapter(getSupportFragmentManager(),fragments);
         viewPager.setAdapter(viewpagerAdapter);
         indicator.setViewPager(viewPager,0);
+
     }
 
+    private void initData(){
+        handler = new MainHandler(this);
+        isSelectGender = SharedPreferenceUtil.getBoolean(this, Constants.SP_IS_SELECT_GENDER,false);
+        if (!isSelectGender){
+            handler.sendEmptyMessageDelayed(SHOW_GENDER_SELECT,500);
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    static class MainHandler extends Handler{
+        WeakReference<MainActivity> reference;
+        MainActivity activity;
+
+        MainHandler(MainActivity activity) {
+            reference = new WeakReference<>(activity);
+            this.activity = reference.get();
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case SHOW_GENDER_SELECT:
+                    activity.genderSelectFragment.show(activity.getSupportFragmentManager(),"gender");
+                    break;
+            }
+        }
+    }
+
+    public void firstLoadData(boolean isMale){
+        bookShelfFragment.firstLoadData(isMale);
     }
 }
