@@ -5,7 +5,7 @@ import io.reactivex.disposables.Disposable;
 
 public class AbstractPresenter {
 
-    private CompositeDisposable compositeDisposable;
+    private static CompositeDisposable compositeDisposable;
 
     public void addDisposable(Disposable disposable){
         if (compositeDisposable == null){
@@ -14,7 +14,7 @@ public class AbstractPresenter {
         compositeDisposable.add(disposable);
     }
 
-    public void removeAllDisposable(){
+    public static void removeAllDisposable(){
         if (!compositeDisposable.isDisposed()){
             compositeDisposable.dispose();
         }

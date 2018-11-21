@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.welson.reader.manager.CollectManager;
+import com.welson.reader.presenter.AbstractPresenter;
 import com.welson.reader.util.AppUtils;
 
 public class ReadApplication extends Application {
@@ -21,4 +22,9 @@ public class ReadApplication extends Application {
         collectManager = new CollectManager(this);
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        AbstractPresenter.removeAllDisposable();
+    }
 }
