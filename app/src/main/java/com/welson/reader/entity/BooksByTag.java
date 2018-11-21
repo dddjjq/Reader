@@ -1,6 +1,8 @@
 package com.welson.reader.entity;
 
-public class BooksByTag {
+import java.io.Serializable;
+
+public class BooksByTag implements Serializable{
     private Book books;
     private boolean ok;
 

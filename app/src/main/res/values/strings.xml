@@ -15,7 +15,8 @@
     <string name="str_gender_female_button">女生小说</string>
     <string name="str_bookshelf_add_tip">添加你喜爱的小说</string>
     <string name="str_bookshelf_add_btn">＋去添加</string>
-
-    <string name="str_bookshelf_title_default">仙都</string>
-    <string name="str_bookshelf_chapter_default">第十八章 转战三万里，纵横五百年...</string>
+    <string name="str_discover_rank">排行榜</string>
+    <string name="str_discover_theme_book_list">主题书单</string>
+    <string name="str_discover_catogory">分类</string>
+    <string name="str_discover_audio_book">有声小说</string>
 </resources>

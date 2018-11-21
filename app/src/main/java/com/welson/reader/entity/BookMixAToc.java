@@ -1,8 +1,9 @@
 package com.welson.reader.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class BookMixAToc {
+public class BookMixAToc implements Serializable{
 
     private MixToc mixToc;
     private boolean ok;

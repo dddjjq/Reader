@@ -119,6 +119,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void scrollToPage(int position){
+        if (position > 2){
+            position = 2;
+        }else if (position < 0){
+            position = 0;
+        }
+        viewPager.setCurrentItem(position);
+    }
+
     public void firstLoadData(boolean isMale){
         bookShelfFragment.firstLoadData(isMale);
     }

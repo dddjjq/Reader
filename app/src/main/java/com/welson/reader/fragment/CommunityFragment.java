@@ -19,4 +19,9 @@ public class CommunityFragment extends BaseFragment {
     public void initData() {
 
     }
+
+    @Override
+    public void addListener() {
+
+    }
 }

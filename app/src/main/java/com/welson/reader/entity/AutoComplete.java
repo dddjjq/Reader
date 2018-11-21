@@ -1,8 +1,9 @@
 package com.welson.reader.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AutoComplete {
+public class AutoComplete implements Serializable{
     private ArrayList<String> keywords;
     private boolean ok;
 

@@ -1,8 +1,9 @@
 package com.welson.reader.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HotReview {
+public class HotReview implements Serializable{
     private int total;
     private ArrayList<Review> reviews;
     private boolean ok;

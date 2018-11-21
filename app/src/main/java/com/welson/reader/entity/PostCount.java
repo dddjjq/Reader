@@ -1,6 +1,8 @@
 package com.welson.reader.entity;
 
-public class PostCount {
+import java.io.Serializable;
+
+public class PostCount implements Serializable{
     private int count;
     private boolean ok;
 

@@ -1,8 +1,9 @@
 package com.welson.reader.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class HotWord {
+public class HotWord implements Serializable{
     private ArrayList<String> hotWords;
     private ArrayList<NewHotWords> newHotWords;
     private boolean ok;

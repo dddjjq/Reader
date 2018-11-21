@@ -1,6 +1,8 @@
 package com.welson.reader.entity;
 
-public class BookSource {
+import java.io.Serializable;
+
+public class BookSource implements Serializable{
     /**
      * _id	"56f8da19176d03ac1983fa00"
      source	"zhuishuvip"

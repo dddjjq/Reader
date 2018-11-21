@@ -1,32 +1,43 @@
 package com.welson.reader.fragment;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.welson.reader.R;
+import com.welson.reader.activity.MainActivity;
 import com.welson.reader.adapter.BookshelfRecyclerAdapter;
+import com.welson.reader.application.ReadApplication;
 import com.welson.reader.contract.MainContract;
+import com.welson.reader.entity.BookEntity;
 import com.welson.reader.entity.Recommend;
+import com.welson.reader.manager.CollectManager;
 import com.welson.reader.presenter.BookShelfPresenter;
 
 import java.util.ArrayList;
 
 import io.reactivex.annotations.NonNull;
 
-public class BookShelfFragment extends BaseFragment implements MainContract.View{
+public class BookShelfFragment extends BaseFragment implements MainContract.View,View.OnClickListener{
 
+    private static final String TAG = "BookShelfFragment";
     private BookShelfPresenter presenter;
+    private MainActivity activity;
     private Button addButton;
     private RecyclerView bookshelfRecycler;
     private BookshelfRecyclerAdapter adapter;
     private LinearLayout bookshelfEmptyView;
     private static final String MALE = "male";
     private static final String FEMALE = "female";
-    private ArrayList<Recommend.Book> books;
+    private ArrayList<BookEntity> books;
 
     @Override
     public int setLayout() {
@@ -44,13 +55,30 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     public void initData() {
         presenter = new BookShelfPresenter();
         presenter.attachView(this);
+        //firstLoadData(true);
+        activity = (MainActivity)getActivity();
         books = new ArrayList<>();
         adapter = new BookshelfRecyclerAdapter(getContext(),books);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         bookshelfRecycler.setLayoutManager(manager);
         bookshelfRecycler.setAdapter(adapter);
-        bookshelfRecycler.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext()
+                ,DividerItemDecoration.VERTICAL);
+        dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.bookshelf_item_divider));
+        bookshelfRecycler.addItemDecoration(dividerItemDecoration);
+        if (CollectManager.getRecommendCollectList() != null &&
+                CollectManager.getRecommendCollectList().size() != 0){
+            books.clear();
+            books.addAll(CollectManager.getRecommendCollectList());
+            showSucceed(CollectManager.getRecommendCollectList());
+            Log.d(TAG,"getBooks().size() != 0");
+        }
         invalidate();
+    }
+
+    @Override
+    public void addListener() {
+        addButton.setOnClickListener(this);
     }
 
     @Override
@@ -68,9 +96,9 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     }
 
     @Override
-    public void showSucceed(Recommend recommend) {
+    public void showSucceed(ArrayList<BookEntity> entities) {
         books.clear();
-        books.addAll(recommend.getBooks());
+        books.addAll(entities);
         adapter.notifyDataSetChanged();
         invalidate();
     }
@@ -95,6 +123,15 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
             bookshelfEmptyView.setVisibility(View.VISIBLE);
         }else {
             bookshelfEmptyView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.add_button:
+                activity.scrollToPage(2);
+                break;
         }
     }
 }

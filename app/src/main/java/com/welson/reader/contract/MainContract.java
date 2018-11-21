@@ -2,7 +2,10 @@ package com.welson.reader.contract;
 
 import com.welson.reader.base.BasePresenter;
 import com.welson.reader.base.BaseView;
+import com.welson.reader.entity.BookEntity;
 import com.welson.reader.entity.Recommend;
+
+import java.util.ArrayList;
 
 public class MainContract {
 
@@ -11,6 +14,6 @@ public class MainContract {
     }
 
     public interface View extends BaseView{
-        void showSucceed(Recommend recommend);
+        void showSucceed(ArrayList<BookEntity> entities);
     }
 }

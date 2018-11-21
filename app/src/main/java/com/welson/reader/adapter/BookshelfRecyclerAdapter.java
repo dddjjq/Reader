@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.constant.Constants;
+import com.welson.reader.entity.BookEntity;
 import com.welson.reader.entity.Recommend;
 import com.welson.reader.util.GlideUtil;
 
@@ -20,9 +22,9 @@ import java.util.ArrayList;
 public class BookshelfRecyclerAdapter extends RecyclerView.Adapter<BookshelfRecyclerAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<Recommend.Book> books;
+    private ArrayList<BookEntity> books;
 
-    public BookshelfRecyclerAdapter(Context context, ArrayList<Recommend.Book> books){
+    public BookshelfRecyclerAdapter(Context context, ArrayList<BookEntity> books){
         this.context = context;
         this.books = books;
     }
@@ -47,14 +49,16 @@ public class BookshelfRecyclerAdapter extends RecyclerView.Adapter<BookshelfRecy
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
+        private RelativeLayout bookshelfLayout;
         private ImageView bookshelfImage;
         private TextView bookshelfTitle;
         private TextView bookshelfChapter;
         private CheckBox bookshelfCheck;
         private ImageView bookshelfIndicator;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
+            bookshelfLayout = itemView.findViewById(R.id.bookshelf_item_layout);
             bookshelfImage = itemView.findViewById(R.id.bookshelf_image);
             bookshelfTitle = itemView.findViewById(R.id.bookshelf_title);
             bookshelfChapter = itemView.findViewById(R.id.bookshelf_chapter);

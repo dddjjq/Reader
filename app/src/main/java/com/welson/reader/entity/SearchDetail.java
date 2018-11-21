@@ -1,8 +1,9 @@
 package com.welson.reader.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SearchDetail {
+public class SearchDetail implements Serializable{
     private Book books;
     private int total;
     private boolean ok;

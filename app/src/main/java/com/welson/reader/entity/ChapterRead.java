@@ -1,6 +1,8 @@
 package com.welson.reader.entity;
 
-public class ChapterRead {
+import java.io.Serializable;
+
+public class ChapterRead implements Serializable{
     private boolean ok;
     private Chapter chapter;
 
