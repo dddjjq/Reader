@@ -51,7 +51,7 @@ public class RankingList implements Serializable{
         this.ok = ok;
     }
 
-    class Rank{
+    public class Rank{
         private String _id;
         private String title;
         private String cover;

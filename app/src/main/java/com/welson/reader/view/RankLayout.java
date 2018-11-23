@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.activity.RankDetailActivity;
+import com.welson.reader.util.GlideUtil;
 
 public class RankLayout extends LinearLayout {
 
@@ -50,5 +51,13 @@ public class RankLayout extends LinearLayout {
         });
     }
 
+    public void setImage(String url){
+        GlideUtil.loadImage(getContext(),url,image);
+    }
+
+    public void setItemString(String s){
+        itemString = s;
+        text.setText(itemString);
+    }
 
 }
