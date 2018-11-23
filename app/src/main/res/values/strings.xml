@@ -29,4 +29,9 @@
     <string name="str_rank_wanjie">追书完结榜 Top100</string>
     <string name="str_rank_vip">VIP排行榜</string>
     <string name="str_rank_others">别人家的排行榜</string>
+    <string-array name="array_rank_detail">
+        <item>周榜</item>
+        <item>月榜</item>
+        <item>总榜</item>
+    </string-array>
 </resources>

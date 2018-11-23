@@ -1,15 +1,18 @@
 package com.welson.reader.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 
@@ -31,6 +34,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
     private Toolbar mainToolbar;
     private TriangleIndicator indicator;
     private ViewPager viewPager;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int SHOW_GENDER_SELECT = 0x01;
     private MainHandler handler;
     private boolean isSelectGender = false;
+    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,26 @@ public class MainActivity extends AppCompatActivity {
         initFragment();
         initData();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        scrollToPage(currentPage);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("currentPage",viewPager.getCurrentItem());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        int currentPage = savedInstanceState.getInt("currentPage");
+        viewPager.setCurrentItem(currentPage);
+    }
+
 
     private void initView(){
         mainToolbar = findViewById(R.id.main_toolbar);
@@ -119,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void setCurrentPage(int position){
+        currentPage = position;
+    }
+
     public void scrollToPage(int position){
         if (position > 2){
             position = 2;
@@ -126,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
             position = 0;
         }
         viewPager.setCurrentItem(position);
+        Log.d("dingyl","position : " + position);
     }
 
     public void firstLoadData(boolean isMale){

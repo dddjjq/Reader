@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.RankDetailActivity"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
+    <com.welson.reader.view.TriangleIndicator
+        android:background="@color/colorMain"
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        app:text_size="15sp"
+        app:text_color_not_select="@color/colorTabBefore"
+        app:tab_item_count="3"
+        app:text_color_selected="@color/colorTabSelect"
+        app:indicator_height="0"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

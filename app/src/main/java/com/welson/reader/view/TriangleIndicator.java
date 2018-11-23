@@ -159,6 +159,7 @@ public class TriangleIndicator extends LinearLayout {
     }
 
     public void setTabArray(List<String> titles){
+        Log.d("dingyl","titles : " + titles);
         this.titles = titles;
     }
 

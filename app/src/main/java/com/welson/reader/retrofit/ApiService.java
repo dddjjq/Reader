@@ -10,6 +10,8 @@ import com.welson.reader.entity.ChapterRead;
 import com.welson.reader.entity.HotReview;
 import com.welson.reader.entity.HotWord;
 import com.welson.reader.entity.PostCount;
+import com.welson.reader.entity.RankingList;
+import com.welson.reader.entity.Rankings;
 import com.welson.reader.entity.Recommend;
 import com.welson.reader.entity.SearchDetail;
 
@@ -132,8 +134,8 @@ public interface ApiService {
      *
      * @return
      */
-   /* @GET("/ranking/gender")
-    Observable<RankingList> getRanking();*/
+    @GET("/ranking/gender")
+    Observable<RankingList> getRankings();
 
     /**
      * 获取单一排行榜
@@ -143,8 +145,8 @@ public interface ApiService {
      *
      * @return
      */
-    /*@GET("/ranking/{rankingId}")
-    Observable<Rankings> getRanking(@Path("rankingId") String rankingId);*/
+    @GET("/ranking/{rankingId}")
+    Observable<Rankings> getRanking(@Path("rankingId") String rankingId);
 
     /**
      * 获取主题书单列表

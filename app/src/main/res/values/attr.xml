@@ -11,4 +11,8 @@
         <item name="android:windowEnterAnimation">@anim/gender_anim_enter</item>
         <item name="android:windowExitAnimation">@anim/gender_anim_exit</item>
     </style>
+    <declare-styleable name="RankLayout">
+        <attr name="icon" format="reference"/>
+        <attr name="name" format="string"/>
+    </declare-styleable>
 </resources>
