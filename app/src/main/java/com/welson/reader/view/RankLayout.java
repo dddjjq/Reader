@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.activity.RankDetailActivity;
+import com.welson.reader.constant.Constants;
 import com.welson.reader.util.GlideUtil;
 
 public class RankLayout extends LinearLayout {
@@ -41,18 +42,10 @@ public class RankLayout extends LinearLayout {
         text = findViewById(R.id.rank_item_text);
         image.setImageResource(iconId);
         text.setText(itemString);
-        this.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, RankDetailActivity.class);
-                intent.putExtra("title",itemString);
-                context.startActivity(intent);
-            }
-        });
     }
 
     public void setImage(String url){
-        GlideUtil.loadImage(getContext(),url,image);
+        GlideUtil.loadImage(getContext(), Constants.IMG_BASE_URL+url,image);
     }
 
     public void setItemString(String s){

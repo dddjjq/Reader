@@ -1,25 +1,26 @@
 package com.welson.reader.activity;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.welson.reader.R;
+import com.welson.reader.adapter.RankListRecyclerAdapter;
 import com.welson.reader.contract.RankListContract;
 import com.welson.reader.entity.RankingList;
-import com.welson.reader.view.RankLayout;
+import com.welson.reader.presenter.RankListPresenter;
 
 public class RankActivity extends AppCompatActivity implements RankListContract.View{
 
     private Toolbar toolbar;
     private RecyclerView rankListRecycler;
-    public RankingList rankingList;
+    private RankListRecyclerAdapter adapter;
+    private RankListPresenter presenter;
+    private RankingList rankingList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,20 @@ public class RankActivity extends AppCompatActivity implements RankListContract.
         initToolBar();
         initView();
         addListener();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter = new RankListPresenter();
+        presenter.attachView(this);
+        presenter.requestRankListData();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.detachView();
     }
 
     private void initToolBar(){
@@ -41,6 +56,8 @@ public class RankActivity extends AppCompatActivity implements RankListContract.
 
     private void initView(){
         rankListRecycler = findViewById(R.id.rank_list_recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        rankListRecycler.setLayoutManager(manager);
     }
 
     private void addListener(){
@@ -66,6 +83,8 @@ public class RankActivity extends AppCompatActivity implements RankListContract.
     @Override
     public void showSucceed(RankingList rankingList) {
         this.rankingList = rankingList;
+        adapter = new RankListRecyclerAdapter(this,rankingList);
+        rankListRecycler.setAdapter(adapter);
     }
 
     @Override

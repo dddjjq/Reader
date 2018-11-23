@@ -6,18 +6,16 @@
     android:padding="15dp"
     android:orientation="horizontal"
     android:background="@drawable/discover_item_background"
-    android:id="@+id/rank_item_layout">
+    android:id="@+id/rank_collapse_item_layout">
     <ImageView
-        android:id="@+id/rank_item_image"
+        android:id="@+id/rank_collapse_item_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/rank_hot_icon"
         android:layout_gravity="center_vertical"/>
     <TextView
-        android:id="@+id/rank_item_text"
+        android:id="@+id/rank_collapse_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/str_rank_haoping"
         android:layout_gravity="center_vertical"
         android:textColor="#000000"
         android:textSize="16sp"
