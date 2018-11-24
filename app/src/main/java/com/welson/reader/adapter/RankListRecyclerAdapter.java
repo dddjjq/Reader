@@ -85,6 +85,10 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
                                 .get(malePosition).getTitle());
                         intent.putExtra("id",rankingList.getMale()
                                 .get(malePosition).get_id());
+                        intent.putExtra("monthRank",rankingList.getMale()
+                                .get(malePosition).getMonthRank());
+                        intent.putExtra("totalRank",rankingList.getMale()
+                                .get(malePosition).getTotalRank());
                         context.startActivity(intent);
                     }
                 });
@@ -103,6 +107,10 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
                                 .get(femalePosition).getTitle());
                         intent.putExtra("id",rankingList.getMale()
                                 .get(femalePosition).get_id());
+                        intent.putExtra("monthRank",rankingList.getMale()
+                                .get(femalePosition).getMonthRank());
+                        intent.putExtra("totalRank",rankingList.getMale()
+                                .get(femalePosition).getTotalRank());
                         context.startActivity(intent);
                     }
                 });

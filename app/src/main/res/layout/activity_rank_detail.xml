@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.RankDetailActivity"
-    android:orientation="vertical">
+    tools:context=".activity.RankDetailActivity">
 
-    <include layout="@layout/toolbar"/>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorMain"/>
     <com.welson.reader.view.TriangleIndicator
+        android:layout_below="@id/toolbar"
         android:background="@color/colorMain"
         android:id="@+id/indicator"
         android:layout_width="match_parent"
@@ -21,7 +25,8 @@
         app:text_color_selected="@color/colorTabSelect"
         app:indicator_height="0"/>
     <android.support.v4.view.ViewPager
+        android:layout_below="@id/indicator"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-</LinearLayout>
+</RelativeLayout>

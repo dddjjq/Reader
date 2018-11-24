@@ -6,13 +6,13 @@ import com.welson.reader.entity.Rankings;
 
 import java.util.ArrayList;
 
-public class RankContract {
+public class RankDetailContract {
 
     public interface Presenter extends BasePresenter{
         void requestRankData(String id);
     }
 
     public interface View extends BaseView{
-        void showSucceed(ArrayList<Rankings.Book> books);
+        void showSucceed(Rankings rankings);
     }
 }

@@ -222,7 +222,7 @@ public class Rankings implements Serializable{
         private boolean allowMonthly;
         private int banned;
         private int latelyFollower;
-        private float retentionRatio;
+        private String retentionRatio;
 
         public String get_id() {
             return _id;
@@ -312,11 +312,11 @@ public class Rankings implements Serializable{
             this.latelyFollower = latelyFollower;
         }
 
-        public float getRetentionRatio() {
+        public String getRetentionRatio() {
             return retentionRatio;
         }
 
-        public void setRetentionRatio(float retentionRatio) {
+        public void setRetentionRatio(String retentionRatio) {
             this.retentionRatio = retentionRatio;
         }
     }

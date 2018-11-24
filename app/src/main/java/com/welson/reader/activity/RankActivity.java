@@ -40,8 +40,8 @@ public class RankActivity extends AppCompatActivity implements RankListContract.
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         presenter.detachView();
     }
 

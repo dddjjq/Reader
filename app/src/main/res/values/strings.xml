@@ -34,4 +34,7 @@
         <item>月榜</item>
         <item>总榜</item>
     </string-array>
+    <string name="str_rank_detail_author">&#160;&#160;|&#160;&#160;</string>
+    <string name="str_rank_detail_chase">&#160;&#160;人在追</string>
+    <string name="str_rank_detail_save">%&#160;&#160;读者留存</string>
 </resources>

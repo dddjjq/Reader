@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -97,7 +98,6 @@ public class TriangleIndicator extends LinearLayout {
     private void initTriangle(){
         mPath = new Path();
         triangleWidth = (getWidth() - getPaddingStart() - getPaddingEnd())/tabCounts/8;
-        Log.d("dingyl","getWidth() : " + this.getWidth());
         triangleHeight = (int)(triangleWidth/2/Math.sqrt(2));
         mPath.moveTo(0,0);
         mPath.lineTo(triangleWidth,0);
@@ -158,16 +158,27 @@ public class TriangleIndicator extends LinearLayout {
         return textView;
     }
 
+    //TODO to delete
+    private Button createButtonTest(){
+        Button button = new Button(getContext());
+        button.setText("test");
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+                , ViewGroup.LayoutParams.MATCH_PARENT);
+        button.setLayoutParams(lp);
+        return button;
+    }
+
     public void setTabArray(List<String> titles){
-        Log.d("dingyl","titles : " + titles);
         this.titles = titles;
     }
 
     private void initClickEvent(){
         setTabSelected(0);
+        Log.d("dingyl","count : " + getChildCount());
         for (int i=0;i<getChildCount();i++){
             final int currentItem = i;
             View view = getChildAt(i);
+            Log.d("dingyl",view.getY()+"");
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -1,8 +1,7 @@
 package com.welson.reader.presenter;
 
-import com.welson.reader.base.BasePresenter;
 import com.welson.reader.base.BaseView;
-import com.welson.reader.contract.RankContract;
+import com.welson.reader.contract.RankDetailContract;
 import com.welson.reader.entity.Rankings;
 import com.welson.reader.retrofit.RetrofitHelper;
 
@@ -11,9 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RankPresenter extends AbstractPresenter implements RankContract.Presenter{
+public class RankPresenter extends AbstractPresenter implements RankDetailContract.Presenter{
 
-    private RankContract.View view;
+    private RankDetailContract.View view;
 
     public RankPresenter(){
 
@@ -32,7 +31,7 @@ public class RankPresenter extends AbstractPresenter implements RankContract.Pre
 
                     @Override
                     public void onNext(Rankings mRankings) {
-                        view.showSucceed(mRankings.getRanking().getBooks());
+                        view.showSucceed(mRankings);
                     }
 
                     @Override
@@ -49,7 +48,7 @@ public class RankPresenter extends AbstractPresenter implements RankContract.Pre
 
     @Override
     public void attachView(BaseView baseView) {
-        view = (RankContract.View) baseView;
+        view = (RankDetailContract.View) baseView;
     }
 
     @Override
