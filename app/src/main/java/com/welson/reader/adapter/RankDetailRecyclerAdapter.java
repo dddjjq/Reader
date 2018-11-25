@@ -39,7 +39,7 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.rankDetailTitle.setText(books.get(i).getTitle());
         viewHolder.rankDetailAuthor.setText(books.get(i).getAuthor() + context.getString(R.string.str_rank_detail_author));
-        viewHolder.rankDetailChapter.setText(getTrueString(books.get(i).getShortIntro()));
+        viewHolder.rankDetailChapter.setText(getTrueString(books.get(i).getShortIntro()).trim());
         viewHolder.rankDetailReader.setText(getSaveString(books.get(i).getLatelyFollower(),books.get(i).getRetentionRatio()));
         GlideUtil.loadImage(context, Constants.IMG_BASE_URL+books.get(i).getCover(),viewHolder.rankDetailImage);
     }

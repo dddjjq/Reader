@@ -2,7 +2,10 @@ package com.welson.reader.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.adapter.RankDetailRecyclerAdapter;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 public class RankDetailFragment extends BaseFragment implements RankDetailContract.View{
 
     private RecyclerView rankRecycler;
+    private TextView noContentView;
     private RankPresenter presenter;
     private RankDetailRecyclerAdapter adapter;
     private ArrayList<Rankings.Book> books;
@@ -27,6 +31,7 @@ public class RankDetailFragment extends BaseFragment implements RankDetailContra
     @Override
     public void initView(View view) {
         rankRecycler = view.findViewById(R.id.rank_recycler);
+        noContentView = view.findViewById(R.id.rank_detail_no_content);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         rankRecycler.setLayoutManager(manager);
         presenter = new RankPresenter();
@@ -39,7 +44,12 @@ public class RankDetailFragment extends BaseFragment implements RankDetailContra
         adapter = new RankDetailRecyclerAdapter(getContext(),books);
         rankRecycler.setAdapter(adapter);
         String id = getArguments().getString("id");
-        presenter.requestRankData(id);
+        if (id != null && !id.equals("")){
+            presenter.requestRankData(id);
+        }else {
+            rankRecycler.setVisibility(View.GONE);
+            noContentView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.welson.reader.presenter;
 
+import android.util.Log;
+
 import com.welson.reader.base.BaseView;
 import com.welson.reader.contract.RankDetailContract;
 import com.welson.reader.entity.Rankings;
@@ -36,6 +38,7 @@ public class RankPresenter extends AbstractPresenter implements RankDetailContra
 
                     @Override
                     public void onError(Throwable e) {
+                        //Log.d("dingyl","onerror");
                         e.printStackTrace();
                     }
 

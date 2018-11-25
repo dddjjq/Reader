@@ -37,4 +37,11 @@
     <string name="str_rank_detail_author">&#160;&#160;|&#160;&#160;</string>
     <string name="str_rank_detail_chase">&#160;&#160;人在追</string>
     <string name="str_rank_detail_save">%&#160;&#160;读者留存</string>
+    <string name="str_rank_detail_no_content">无内容</string>
+    <string name="str_community_discuss">综合讨论区</string>
+    <string name="str_community_comment">书评区</string>
+    <string name="str_community_helper">书荒互助区</string>
+    <string name="str_community_girl">女生区</string>
+    <string name="str_community_original">原创区</string>
+    <string name="str_community_title">公共讨论区</string>
 </resources>

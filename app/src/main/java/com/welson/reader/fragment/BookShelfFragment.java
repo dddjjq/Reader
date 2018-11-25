@@ -55,7 +55,6 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     public void initData() {
         presenter = new BookShelfPresenter();
         presenter.attachView(this);
-        //firstLoadData(true);
         activity = (MainActivity)getActivity();
         books = new ArrayList<>();
         adapter = new BookshelfRecyclerAdapter(getContext(),books);

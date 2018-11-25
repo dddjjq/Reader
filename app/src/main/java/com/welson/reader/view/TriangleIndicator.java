@@ -174,11 +174,9 @@ public class TriangleIndicator extends LinearLayout {
 
     private void initClickEvent(){
         setTabSelected(0);
-        Log.d("dingyl","count : " + getChildCount());
         for (int i=0;i<getChildCount();i++){
             final int currentItem = i;
             View view = getChildAt(i);
-            Log.d("dingyl",view.getY()+"");
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {

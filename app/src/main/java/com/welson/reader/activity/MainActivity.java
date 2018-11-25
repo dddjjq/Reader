@@ -155,7 +155,6 @@ public class MainActivity extends AppCompatActivity {
             position = 0;
         }
         viewPager.setCurrentItem(position);
-        Log.d("dingyl","position : " + position);
     }
 
     public void firstLoadData(boolean isMale){
