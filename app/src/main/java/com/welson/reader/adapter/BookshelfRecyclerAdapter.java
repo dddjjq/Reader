@@ -1,6 +1,8 @@
 package com.welson.reader.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.welson.reader.R;
+import com.welson.reader.activity.ReadActivity;
 import com.welson.reader.constant.Constants;
 import com.welson.reader.entity.BookEntity;
 import com.welson.reader.entity.Recommend;
@@ -38,9 +41,19 @@ public class BookshelfRecyclerAdapter extends RecyclerView.Adapter<BookshelfRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        final int position = i;
         GlideUtil.loadImage(context, Constants.IMG_BASE_URL + books.get(i).getCover(),viewHolder.bookshelfImage);
         viewHolder.bookshelfTitle.setText(books.get(i).getTitle());
         viewHolder.bookshelfChapter.setText(books.get(i).getLastChapter());
+        viewHolder.bookshelfLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ReadActivity.class);
+                intent.putExtra("bookId",books.get(position).get_id());
+                context.startActivity(intent);
+                ((Activity)context).overridePendingTransition(R.anim.window_enter_anim,0);
+            }
+        });
     }
 
     @Override

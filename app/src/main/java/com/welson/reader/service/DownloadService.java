@@ -69,7 +69,7 @@ public class DownloadService extends Service {
     }
 
 
-    private void download(String url, final String bookId, final int chapter){
+    private void download(String url, final String bookId, final int chapter,final String title){
         RetrofitHelper.getInstance().getChapterRead(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -82,7 +82,7 @@ public class DownloadService extends Service {
                     @Override
                     public void onNext(ChapterRead chapterRead) {
                         CacheManager.getInstance().saveChapterFile(bookId,chapter, BookContentUtil
-                                .getSaveString(chapterRead.getChapter().getTitle()
+                                .getSaveString(title
                                         ,chapterRead.getChapter().getBody()));
                     }
 
@@ -123,10 +123,10 @@ public class DownloadService extends Service {
                             @Override
                             public void run() {
                                 for (Integer chapter : mChapters){
+                                    int trueChapter = chapter - 1;
                                     if (mBookMixAToc.isOk()){
-                                        Log.d("dingyl","mBookMixAToc : " + mBookMixAToc.getMixToc().getBook());
-                                        download(mBookMixAToc.getMixToc().getChapters().get(chapter).getLink(),mBookMixAToc
-                                                .getMixToc().getBook(),chapter);
+                                        download(mBookMixAToc.getMixToc().getChapters().get(trueChapter).getLink(),mBookMixAToc
+                                                .getMixToc().getBook(),chapter,mBookMixAToc.getMixToc().getChapters().get(trueChapter).getTitle());
                                     }
                                 }
                             }

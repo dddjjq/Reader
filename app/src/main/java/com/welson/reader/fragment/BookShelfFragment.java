@@ -61,7 +61,8 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     @Override
     public void initData() {
         eventBus = EventBus.getDefault();
-        eventBus.register(this);
+        if (!eventBus.isRegistered(this))
+            eventBus.register(this);
         presenter = new BookShelfPresenter();
         presenter.attachView(this);
         activity = (MainActivity)getActivity();
@@ -93,6 +94,8 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     public void onDestroy() {
         super.onDestroy();
         presenter.detachView();
+        if (eventBus.isRegistered(this))
+            eventBus.unregister(this);
     }
 
     public void firstLoadData(boolean isMale){
@@ -111,7 +114,7 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
         invalidate();
         //if (isDownload){
             DownloadEvent event = new DownloadEvent();
-            Integer i[] = {0,1,2,3};
+            Integer i[] = {1,2,3,4};
             for (BookEntity entity : entities){
                 event.setBookId(entity.get_id());
                 event.setChapters(Arrays.asList(i));
