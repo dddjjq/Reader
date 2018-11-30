@@ -24,8 +24,11 @@ import com.welson.reader.fragment.BookShelfFragment;
 import com.welson.reader.fragment.CommunityFragment;
 import com.welson.reader.fragment.DiscoverFragment;
 import com.welson.reader.fragment.GenderSelectFragment;
+import com.welson.reader.service.DownloadService;
 import com.welson.reader.util.SharedPreferenceUtil;
 import com.welson.reader.view.TriangleIndicator;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         setSupportActionBar(mainToolbar);
+        startDownloadService();
     }
 
     @Override
@@ -83,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setCurrentItem(currentPage);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopDownloadService();
+    }
 
     private void initView(){
         mainToolbar = findViewById(R.id.main_toolbar);
@@ -159,5 +168,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void firstLoadData(boolean isMale){
         bookShelfFragment.firstLoadData(isMale);
+    }
+
+    private void startDownloadService(){
+        Intent intent = new Intent(this, DownloadService.class);
+        startService(intent);
+    }
+
+    private void stopDownloadService(){
+        Intent intent = new Intent(this, DownloadService.class);
+        stopService(intent);
     }
 }

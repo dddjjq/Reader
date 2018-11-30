@@ -19,10 +19,16 @@ import com.welson.reader.application.ReadApplication;
 import com.welson.reader.contract.MainContract;
 import com.welson.reader.entity.BookEntity;
 import com.welson.reader.entity.Recommend;
+import com.welson.reader.eventbus.DownloadEvent;
 import com.welson.reader.manager.CollectManager;
 import com.welson.reader.presenter.BookShelfPresenter;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import io.reactivex.annotations.NonNull;
 
@@ -38,6 +44,7 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     private static final String MALE = "male";
     private static final String FEMALE = "female";
     private ArrayList<BookEntity> books;
+    private EventBus eventBus;
 
     @Override
     public int setLayout() {
@@ -53,6 +60,8 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
 
     @Override
     public void initData() {
+        eventBus = EventBus.getDefault();
+        eventBus.register(this);
         presenter = new BookShelfPresenter();
         presenter.attachView(this);
         activity = (MainActivity)getActivity();
@@ -69,7 +78,7 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
                 CollectManager.getRecommendCollectList().size() != 0){
             books.clear();
             books.addAll(CollectManager.getRecommendCollectList());
-            showSucceed(CollectManager.getRecommendCollectList());
+            showSucceed(CollectManager.getRecommendCollectList(),false);
             Log.d(TAG,"getBooks().size() != 0");
         }
         invalidate();
@@ -95,11 +104,20 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     }
 
     @Override
-    public void showSucceed(ArrayList<BookEntity> entities) {
+    public void showSucceed(ArrayList<BookEntity> entities,boolean isDownload) {
         books.clear();
         books.addAll(entities);
         adapter.notifyDataSetChanged();
         invalidate();
+        //if (isDownload){
+            DownloadEvent event = new DownloadEvent();
+            Integer i[] = {0,1,2,3};
+            for (BookEntity entity : entities){
+                event.setBookId(entity.get_id());
+                event.setChapters(Arrays.asList(i));
+                eventBus.post(event);
+            }
+        //}
     }
 
     @Override
@@ -132,5 +150,10 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
                 activity.scrollToPage(2);
                 break;
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(DownloadEvent event){
+
     }
 }

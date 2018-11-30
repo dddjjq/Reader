@@ -4,7 +4,11 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import com.welson.reader.constant.Constants;
+
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class FileUtils {
 
@@ -42,5 +46,27 @@ public class FileUtils {
 
     public static boolean isSdcardEnable(){
         return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
+
+    public static void writeFile(File file,String content,boolean isAppend){
+        try{
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(content.getBytes());
+            fileOutputStream.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static File getChapterFile(String bookId,int chapter){
+        File file = new File(getChapterPath(bookId,chapter));
+        if (!file.exists()){
+            createFile(file);
+        }
+        return file;
+    }
+
+    public static String getChapterPath(String bookId,int chapter){
+        return Constants.PATH_TXT + bookId + File.separator + chapter + ".txt";
     }
 }

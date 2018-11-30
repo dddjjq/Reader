@@ -22,7 +22,7 @@ public class ChapterRead implements Serializable{
         this.chapter = chapter;
     }
 
-    class Chapter{
+    public class Chapter{
         private String title;
         private String body;
 

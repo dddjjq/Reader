@@ -14,6 +14,6 @@ public class MainContract {
     }
 
     public interface View extends BaseView{
-        void showSucceed(ArrayList<BookEntity> entities);
+        void showSucceed(ArrayList<BookEntity> entities,boolean isDownload);
     }
 }

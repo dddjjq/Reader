@@ -72,7 +72,7 @@ public class BookMixAToc implements Serializable{
         }
     }
 
-    class Chapter{
+    public class Chapter{
         private String title;
         private String link;
         private boolean unreadble;

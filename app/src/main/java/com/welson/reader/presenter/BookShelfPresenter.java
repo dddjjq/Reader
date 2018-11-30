@@ -55,7 +55,7 @@ public class BookShelfPresenter extends AbstractPresenter implements MainContrac
                     public void onNext(Recommend mRecommend) {
                         recommend = mRecommend;
                         if (mRecommend.isOk()){
-                            view.showSucceed(mRecommend.getBooks());
+                            view.showSucceed(mRecommend.getBooks(),true);
                         }else {
                             view.showError();
                         }
