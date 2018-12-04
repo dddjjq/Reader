@@ -19,7 +19,7 @@ public class BookViewPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return readViews.size();
+        return Integer.MAX_VALUE;
     }
 
     @Override
@@ -29,13 +29,15 @@ public class BookViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView(readViews.get(position));
+        container.removeView(readViews.get(position%readViews.size()));
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        container.addView(readViews.get(position));
-        return readViews.get(position);
+        container.addView(readViews.get(position%readViews.size()));
+        return readViews.get(position%readViews.size());
     }
+
+
 }
