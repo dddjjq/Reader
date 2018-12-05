@@ -1,62 +1,82 @@
 package com.welson.reader.view;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Scroller;
 
-import com.welson.reader.R;
+public class ReadView extends LinearLayout {
 
-public class ReadView extends RelativeLayout{
-
-    private TextView readChapterText;
-    public TextView readContentText;
-    private TextView readTimeText;
-    private TextView readCurrentChapterItemText;
+    private BaseReadView prePage,currPage,nextPage;
+    private int preLeft;
+    private int currLeft;
+    private int nextLeft;
+    private Scroller scroller;
+    private float downX;
+    private float moveX;
 
     public ReadView(Context context) {
         super(context);
         init(context);
     }
 
-    public ReadView(Context context, AttributeSet attrs) {
+    public ReadView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
     private void init(Context context){
-        LayoutInflater.from(context).inflate(R.layout.read_view_layout,this,true);
-        readChapterText = findViewById(R.id.read_chapter);
-        readContentText = findViewById(R.id.read_content);
-        readTimeText = findViewById(R.id.read_current_time);
-        readCurrentChapterItemText = findViewById(R.id.read_current_chapter);
+        scroller = new Scroller(context);
+        setOrientation(HORIZONTAL);
+        prePage = new BaseReadView(context);
+        currPage = new BaseReadView(context);
+        nextPage = new BaseReadView(context);
+        addView(prePage,0,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addView(currPage,1,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        addView(nextPage,2,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        preLeft = -prePage.getWidth();
+        currLeft = 0;
+        nextLeft = nextPage.getWidth();
+        prePage.layout(preLeft,prePage.getTop(),0,prePage.getBottom());
+        currPage.layout(currLeft,currPage.getTop(),currPage.getWidth(),currPage.getBottom());
+        nextPage.layout(nextPage.getWidth(),nextPage.getTop(),nextPage.getWidth()*2,nextPage.getBottom());
     }
 
-    public void setReadChapterText(String s){
-        readChapterText.setText(s);
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);/*
+        */
     }
 
-    public void setReadContentText(String s){
-        readContentText.setText(s);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                downX = event.getX();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                moveX = event.getX() - downX;
+                Log.d("dingyl","moveX : " + moveX);
+                prePage.layout((int)moveX,prePage.getTop(),prePage.getWidth()-(int)moveX,prePage.getBottom());
+                break;
+            case MotionEvent.ACTION_UP:
+                moveX = 0;
+                break;
+        }
+        return true;
     }
 
-    public void setReadTimeText(String s){
-        readTimeText.setText(s);
-    }
-
-    public void setReadCurrentChapterItemText(String s){
-        readCurrentChapterItemText.setText(s);
-    }
-
-    public void setContentTextSize(int size){
-        readContentText.setTextSize(size);
-    }
-
-    public int getMaxLine(){
-        int height = readContentText.getHeight();
-        int lineHeight = readContentText.getLineHeight();
-        readContentText.getMaxLines();
-        return height/lineHeight;
+    @Override
+    public void computeScroll() {
+        if (scroller.computeScrollOffset()){
+            scrollTo(scroller.getCurrX(),0);
+            postInvalidate();
+        }
+        super.computeScroll();
     }
 }

@@ -5,16 +5,16 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.welson.reader.view.ReadView;
+import com.welson.reader.view.BaseReadView;
 
 import java.util.ArrayList;
 
 public class BookViewPagerAdapter extends PagerAdapter {
 
-    private ArrayList<ReadView> readViews;
+    private ArrayList<BaseReadView> baseReadViews;
 
-    public BookViewPagerAdapter(ArrayList<ReadView> readViews){
-        this.readViews = readViews;
+    public BookViewPagerAdapter(ArrayList<BaseReadView> baseReadViews){
+        this.baseReadViews = baseReadViews;
     }
 
     @Override
@@ -29,14 +29,14 @@ public class BookViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView(readViews.get(position%readViews.size()));
+        container.removeView(baseReadViews.get(position% baseReadViews.size()));
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        container.addView(readViews.get(position%readViews.size()));
-        return readViews.get(position%readViews.size());
+        container.addView(baseReadViews.get(position% baseReadViews.size()));
+        return baseReadViews.get(position% baseReadViews.size());
     }
 
 

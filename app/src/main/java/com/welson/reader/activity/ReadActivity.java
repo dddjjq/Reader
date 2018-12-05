@@ -9,17 +9,15 @@ import android.widget.TextView;
 import com.welson.reader.R;
 import com.welson.reader.adapter.BookViewPagerAdapter;
 import com.welson.reader.manager.SettingManager;
-import com.welson.reader.util.SharedPreferenceUtil;
-import com.welson.reader.view.ReadView;
+import com.welson.reader.view.BaseReadView;
 
 import java.util.ArrayList;
 
 public class ReadActivity extends AppCompatActivity {
 
-    private ViewPager viewPager;
     private BookViewPagerAdapter adapter;
     private String bookId;
-    private ArrayList<ReadView> readViews;
+    //private ArrayList<BaseReadView> baseReadViews;
     private int begin; //当前页起始位置
     private int currentChapter;
     private float textSize;
@@ -43,53 +41,18 @@ public class ReadActivity extends AppCompatActivity {
     }
 
     private void initView(){
-        viewPager = findViewById(R.id.read_viewPager);
+
     }
 
     private void initData(){
         bookId = getIntent().getStringExtra("bookId");
         currentChapter = getIntent().getIntExtra("currentChapter",0);
-        readViews = new ArrayList<>();
-        for (int i=0;i<5;i++){
-            readViews.add(new ReadView(this));
-        }
-        adapter = new BookViewPagerAdapter(readViews);
-        viewPager.setAdapter(adapter);
     }
 
     private void addListener(){
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float offset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.d("dingyl","onPageScrollStateChanged position : " + position);
-                readViews.get(2).setReadContentText("test");
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                switch (state){
-                    case ViewPager.SCROLL_STATE_IDLE: // 停止滑动
-                        Log.d("dingyl","SCROLL_STATE_IDLE");
-                        //viewPager.setCurrentItem(1,false);
-                        break;
-                    case ViewPager.SCROLL_STATE_DRAGGING:
-                        Log.d("dingyl","SCROLL_STATE_DRAGGING");
-                        break;
-                    case ViewPager.SCROLL_STATE_SETTLING:
-                        Log.d("dingyl","SCROLL_STATE_SETTLING");
-                        break;
-                }
-            }
-        });
     }
 
     private void loadCurrentPageData(){
-        ReadView readView = readViews.get(viewPager.getCurrentItem());
 
     }
 
@@ -97,12 +60,12 @@ public class ReadActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus){
-            TextView textView = readViews.get(0).readContentText;
+            /*TextView textView = baseReadViews.get(0).readContentText;
             textSize = textView.getTextSize(); //字体大小
             space = textView.getLineSpacingExtra();//行间距
             lineCount = (int)(textView.getHeight()/(textSize + space + textSize/5.3)) ;//行数
             //这里是因为textSize和text的高度不一样，但是设置includeFontPadding不起作用(textSize/5.3可以作为经验值)
-            lineTextCount = (int)(textView.getWidth()/textSize);//每行字数
+            lineTextCount = (int)(textView.getWidth()/textSize);//每行字数*/
         }
     }
 
