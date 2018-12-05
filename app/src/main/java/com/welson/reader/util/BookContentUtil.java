@@ -1,10 +1,9 @@
 package com.welson.reader.util;
 
-import android.util.Log;
 
 public class BookContentUtil {
     public static String getSaveString(String title,String content){
-        content = "\u2000\u2000" + content.replaceAll("\n","\n\u2000\u2000");
+        content = "\u3000\u3000" + content.replaceAll("\n","@");
         return title + "\n" + content;
     }
 }

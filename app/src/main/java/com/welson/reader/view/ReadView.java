@@ -11,7 +11,7 @@ import com.welson.reader.R;
 public class ReadView extends RelativeLayout{
 
     private TextView readChapterText;
-    private TextView readContentText;
+    public TextView readContentText;
     private TextView readTimeText;
     private TextView readCurrentChapterItemText;
 
