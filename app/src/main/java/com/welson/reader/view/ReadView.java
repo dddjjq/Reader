@@ -36,6 +36,9 @@ public class ReadView extends RelativeLayout {
         prePage = new BaseReadView(context);
         currPage = new BaseReadView(context);
         nextPage = new BaseReadView(context);
+        prePage.setReadContentText("1111111");
+        currPage.setReadContentText("222222");
+        nextPage.setReadContentText("333333");
         addView(prePage);
         addView(currPage);
         addView(nextPage);
@@ -47,19 +50,13 @@ public class ReadView extends RelativeLayout {
         preLeft = -getWidth();
         currLeft = 0;
         nextLeft = getWidth();
-        Log.d("dingyl","getWidth : " + getWidth());
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        //super.onLayout(changed, l, t, r, b);
         prePage.layout(-getWidth(),getTop(),0,getBottom());
         currPage.layout(0,getTop(),getWidth(),getBottom());
         nextPage.layout(getWidth(),getTop(),getWidth()*2,getBottom());
-        Log.d("dingyl","getLeft : " + currPage.getLeft());
-        Log.d("dingyl","getTop : " + getBottom());
-        Log.d("dingyl","getWidth : " + currPage.getWidth());
-        Log.d("dingyl","getHeight : " + currPage.getHeight());
     }
 
     @Override
@@ -70,7 +67,6 @@ public class ReadView extends RelativeLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 moveX = event.getX() - downX;
-               // currPage.layout((int)moveX,getTop(),prePage.getWidth()-(int)moveX,getBottom());
                 reLayout((int)moveX);
                 downX = event.getX();
                 break;
@@ -90,16 +86,53 @@ public class ReadView extends RelativeLayout {
     }
 
     private void reLayout(int dx){
-        /*preLeft = -getWidth() + dx;
-        currLeft = dx;
-        nextLeft = getWidth() + dx;*/
         preLeft += dx;
         currLeft += dx;
         nextLeft += dx;
-        if (preLeft <=0 && nextLeft >=0){
-            prePage.layout(preLeft,getTop(),preLeft+getWidth(),getBottom());
-            currPage.layout(currLeft,getTop(),currLeft+getWidth(),getBottom());
-            nextPage.layout(nextLeft,getTop(),nextLeft+getWidth(),getBottom());
+        if (preLeft > 0){
+            addPrePage();
+            /*preLeft = 0;
+            currLeft = getWidth();
+            nextLeft = getWidth() * 2;*/
+            restore();
         }
+        if (nextLeft < 0){
+            /*preLeft = -getWidth()*2;
+            currLeft = -getWidth();
+            nextLeft = 0;*/
+            addNextPage();
+            restore();
+        }
+        prePage.layout(preLeft,getTop(),preLeft+getWidth(),getBottom());
+        currPage.layout(currLeft,getTop(),currLeft+getWidth(),getBottom());
+        nextPage.layout(nextLeft,getTop(),nextLeft+getWidth(),getBottom());
+    }
+
+    private void addPrePage(){
+        BaseReadView temp = currPage;
+        currPage = prePage;
+        prePage = nextPage;
+        nextPage = temp;
+    }
+
+    private void addNextPage(){
+        BaseReadView temp = currPage;
+        currPage = nextPage;
+        nextPage = prePage;
+        prePage = temp;
+    }
+
+    private void restore(){
+        preLeft = -getWidth();
+        currLeft = 0;
+        nextLeft = getWidth();
+    }
+
+    private void smoothNextPage(){
+
+    }
+
+    private void smoothPrePage(){
+
     }
 }
