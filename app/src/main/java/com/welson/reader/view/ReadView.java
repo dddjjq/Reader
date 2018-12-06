@@ -8,9 +8,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
-public class ReadView extends LinearLayout {
+public class ReadView extends RelativeLayout {
 
     private BaseReadView prePage,currPage,nextPage;
     private int preLeft;
@@ -32,25 +33,33 @@ public class ReadView extends LinearLayout {
 
     private void init(Context context){
         scroller = new Scroller(context);
-        setOrientation(HORIZONTAL);
         prePage = new BaseReadView(context);
         currPage = new BaseReadView(context);
         nextPage = new BaseReadView(context);
-        addView(prePage,0,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        addView(currPage,1,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        addView(nextPage,2,new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        preLeft = -prePage.getWidth();
+        addView(prePage);
+        addView(currPage);
+        addView(nextPage);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        preLeft = -getWidth();
         currLeft = 0;
-        nextLeft = nextPage.getWidth();
-        prePage.layout(preLeft,prePage.getTop(),0,prePage.getBottom());
-        currPage.layout(currLeft,currPage.getTop(),currPage.getWidth(),currPage.getBottom());
-        nextPage.layout(nextPage.getWidth(),nextPage.getTop(),nextPage.getWidth()*2,nextPage.getBottom());
+        nextLeft = getWidth();
+        Log.d("dingyl","getWidth : " + getWidth());
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);/*
-        */
+        //super.onLayout(changed, l, t, r, b);
+        prePage.layout(-getWidth(),getTop(),0,getBottom());
+        currPage.layout(0,getTop(),getWidth(),getBottom());
+        nextPage.layout(getWidth(),getTop(),getWidth()*2,getBottom());
+        Log.d("dingyl","getLeft : " + currPage.getLeft());
+        Log.d("dingyl","getTop : " + getBottom());
+        Log.d("dingyl","getWidth : " + currPage.getWidth());
+        Log.d("dingyl","getHeight : " + currPage.getHeight());
     }
 
     @Override
@@ -61,11 +70,11 @@ public class ReadView extends LinearLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 moveX = event.getX() - downX;
-                Log.d("dingyl","moveX : " + moveX);
-                prePage.layout((int)moveX,prePage.getTop(),prePage.getWidth()-(int)moveX,prePage.getBottom());
+               // currPage.layout((int)moveX,getTop(),prePage.getWidth()-(int)moveX,getBottom());
+                reLayout((int)moveX);
+                downX = event.getX();
                 break;
             case MotionEvent.ACTION_UP:
-                moveX = 0;
                 break;
         }
         return true;
@@ -78,5 +87,19 @@ public class ReadView extends LinearLayout {
             postInvalidate();
         }
         super.computeScroll();
+    }
+
+    private void reLayout(int dx){
+        /*preLeft = -getWidth() + dx;
+        currLeft = dx;
+        nextLeft = getWidth() + dx;*/
+        preLeft += dx;
+        currLeft += dx;
+        nextLeft += dx;
+        if (preLeft <=0 && nextLeft >=0){
+            prePage.layout(preLeft,getTop(),preLeft+getWidth(),getBottom());
+            currPage.layout(currLeft,getTop(),currLeft+getWidth(),getBottom());
+            nextPage.layout(nextLeft,getTop(),nextLeft+getWidth(),getBottom());
+        }
     }
 }
