@@ -1,15 +1,17 @@
 package com.welson.reader.view;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.view.animation.OvershootInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
+
+import java.util.ArrayList;
 
 public class ReadView extends RelativeLayout {
 
@@ -20,6 +22,7 @@ public class ReadView extends RelativeLayout {
     private Scroller scroller;
     private float downX;
     private float moveX;
+    private ArrayList<BaseReadView> readViews;
 
     public ReadView(Context context) {
         super(context);
@@ -42,6 +45,10 @@ public class ReadView extends RelativeLayout {
         addView(prePage);
         addView(currPage);
         addView(nextPage);
+        readViews = new ArrayList<>();
+        readViews.add(prePage);
+        readViews.add(currPage);
+        readViews.add(nextPage);
     }
 
     @Override
@@ -66,11 +73,14 @@ public class ReadView extends RelativeLayout {
                 downX = event.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
-                moveX = event.getX() - downX;
-                reLayout((int)moveX);
+                float dx = event.getX() - downX;
+                reLayout((int)dx);
+                moveX += dx;
                 downX = event.getX();
                 break;
             case MotionEvent.ACTION_UP:
+                smoothNextPage();
+                moveX = 0;
                 break;
         }
         return true;
@@ -129,10 +139,35 @@ public class ReadView extends RelativeLayout {
     }
 
     private void smoothNextPage(){
-
+        float dx = 0;
+        if (moveX >= 0){
+            if (moveX > getWidth() / 2){
+                scroller.startScroll(getScrollX(),0,(int)(moveX - getWidth()),0,getDuration(moveX - getWidth()));
+                dx = moveX - getWidth();
+                invalidate();
+            }else {
+                scroller.startScroll(getScrollX(),0,(int) moveX,0,getDuration(moveX));
+                dx = moveX;
+                invalidate();
+            }
+        }else {
+            if (moveX < -getWidth() / 2){
+                scroller.startScroll(getScrollX(),0,(int)(moveX + getWidth()),0,getDuration(moveX + getWidth()));
+                dx = moveX + getWidth();
+                invalidate();
+            }else {
+                scroller.startScroll(getScrollX(),0,(int) moveX,0,getDuration(moveX));
+                dx = moveX;
+                invalidate();
+            }
+        }
+        /*preLeft += -dx;
+        currLeft += -dx;
+        nextLeft += -dx;*/
     }
 
-    private void smoothPrePage(){
-
+    private int getDuration(float dx){
+        return (int)(Math.abs(dx)/getWidth() * 1000);
     }
+
 }
