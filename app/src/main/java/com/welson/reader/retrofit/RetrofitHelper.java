@@ -5,6 +5,7 @@ import com.welson.reader.constant.Constants;
 import com.welson.reader.entity.BookMixAToc;
 import com.welson.reader.entity.BookSource;
 import com.welson.reader.entity.ChapterRead;
+import com.welson.reader.entity.DiscussionList;
 import com.welson.reader.entity.RankingList;
 import com.welson.reader.entity.Rankings;
 import com.welson.reader.entity.Recommend;
@@ -79,5 +80,9 @@ public class RetrofitHelper {
 
     public Observable<Rankings> getRanking(String id){
         return apiService.getRanking(id);
+    }
+
+    public Observable<DiscussionList> getBookDiscussionList(String block,String duration,String sort,String type,int start,int limit,String distillate){
+        return apiService.getBookDiscussionList(block, duration, sort, type, start, limit, distillate);
     }
 }

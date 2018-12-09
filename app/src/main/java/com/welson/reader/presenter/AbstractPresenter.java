@@ -7,7 +7,7 @@ public class AbstractPresenter {
 
     private static CompositeDisposable compositeDisposable;
 
-    public void addDisposable(Disposable disposable){
+    protected void addDisposable(Disposable disposable){
         if (compositeDisposable == null){
             compositeDisposable = new CompositeDisposable();
         }

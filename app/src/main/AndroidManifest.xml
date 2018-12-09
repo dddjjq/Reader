@@ -27,7 +27,9 @@
 
         <service
             android:name=".service.DownloadService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".activity.CommunityDetailActivity"></activity>
     </application>
 
 </manifest>

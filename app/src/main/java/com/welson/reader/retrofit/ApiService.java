@@ -7,6 +7,7 @@ import com.welson.reader.entity.BookMixAToc;
 import com.welson.reader.entity.BookSource;
 import com.welson.reader.entity.BooksByTag;
 import com.welson.reader.entity.ChapterRead;
+import com.welson.reader.entity.DiscussionList;
 import com.welson.reader.entity.HotReview;
 import com.welson.reader.entity.HotWord;
 import com.welson.reader.entity.PostCount;
@@ -225,8 +226,8 @@ public interface ApiService {
      * @param distillate true(精品)
      * @return
      */
-    //@GET("/post/by-block")
-    //Observable<DiscussionList> getBookDisscussionList(@Query("block") String block, @Query("duration") String duration, @Query("sort") String sort, @Query("type") String type, @Query("start") String start, @Query("limit") String limit, @Query("distillate") String distillate);
+    @GET("/post/by-block")
+    Observable<DiscussionList> getBookDiscussionList(@Query("block") String block, @Query("duration") String duration, @Query("sort") String sort, @Query("type") String type, @Query("start") int start, @Query("limit") int limit, @Query("distillate") String distillate);
 
     /**
      * 获取综合讨论区帖子详情

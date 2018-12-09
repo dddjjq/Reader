@@ -10,6 +10,8 @@ import com.welson.reader.R;
 import com.welson.reader.adapter.BookViewPagerAdapter;
 import com.welson.reader.manager.SettingManager;
 import com.welson.reader.view.BaseReadView;
+import com.welson.reader.view.readview.ReadFactory;
+import com.welson.reader.view.readview.ReadView;
 
 import java.util.ArrayList;
 
@@ -17,13 +19,14 @@ public class ReadActivity extends AppCompatActivity {
 
     private BookViewPagerAdapter adapter;
     private String bookId;
-    //private ArrayList<BaseReadView> baseReadViews;
+    private ReadView readView;
     private int begin; //当前页起始位置
     private int currentChapter;
     private float textSize;
     private float space;
     private int lineCount;
     private int lineTextCount;
+    private ReadFactory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,9 @@ public class ReadActivity extends AppCompatActivity {
     }
 
     private void initView(){
-
+        readView = findViewById(R.id.read_view);
+        factory = new ReadFactory(this);
+        readView.setPageFactory(factory);
     }
 
     private void initData(){

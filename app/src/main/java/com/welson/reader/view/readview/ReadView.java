@@ -3,11 +3,14 @@ package com.welson.reader.view.readview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Scroller;
 
 import com.welson.reader.entity.TouchPoint;
@@ -37,6 +40,8 @@ public class ReadView extends View {
     private TouchPoint touchPoint;
     private GradientDrawable gradientDrawable;
     private int scrollTime = 300;
+    private float moveX;
+    private int currentPage = 1;
 
     public ReadView(Context context) {
         super(context);
@@ -64,31 +69,43 @@ public class ReadView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         viewWidth = ViewUtils.getMeasuredSize(widthMeasureSpec,defWidth);
         viewHeight = ViewUtils.getMeasuredSize(heightMeasureSpec,defHeight);
+        setMeasuredDimension(viewWidth,viewHeight);
+        previousBitmap = Bitmap.createBitmap(viewWidth,viewHeight, Bitmap.Config.ARGB_8888);
+        currentBitmap = Bitmap.createBitmap(viewWidth,viewHeight, Bitmap.Config.ARGB_8888);
+        nextBitmap = Bitmap.createBitmap(viewWidth,viewHeight, Bitmap.Config.ARGB_8888);
+        previousBitmap.eraseColor(Color.WHITE);
+        currentBitmap.eraseColor(Color.WHITE);
+        nextBitmap.eraseColor(Color.WHITE);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        previousBitmap = Bitmap.createBitmap(viewWidth,viewHeight, Bitmap.Config.RGB_565);
-        currentBitmap = Bitmap.createBitmap(viewWidth,viewHeight, Bitmap.Config.RGB_565);
-        nextBitmap = Bitmap.createBitmap(viewWidth,viewHeight, Bitmap.Config.RGB_565);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (factory != null){
+            int state = Math.abs(currentPage)%3;
             if(touchPoint.getX() == -1 && touchPoint.getY() == -1){
-                drawCurrentPage(canvas);
+                if (state == 1){
+                    drawCurrentPage(canvas);
+                }else if (state == 0){
+                    drawPreviousPage(canvas);
+                }else if (state == 2){
+                    drawNextPage(canvas);
+                }
                 pageState = PAGE_STAY;
             }else {
+                Log.d("dingyl","state " + state);
                 if (touchState == TOUCH_RIGHT){
-                    drawCurrentPage(canvas);
-                    drawNextPage(canvas);
+                    //drawCurrentPage(canvas);
+                    //drawNextPage(canvas);
                     drawShadow(canvas);
                 }else if (touchState == TOUCH_LEFT){
-                    drawPreviousPage(canvas);
-                    drawCurrentPage(canvas);
+                    //drawNextPage(canvas);
+                    //drawCurrentPage(canvas);
                     drawShadow(canvas);
                 }
             }
@@ -105,13 +122,18 @@ public class ReadView extends View {
                     downX = (int)x;
                     if (downX < viewWidth/3){
                         touchState = TOUCH_LEFT;
+                        factory.drawCurrentBitmap(currentBitmap);
+                        factory.drawNextBitmap(nextBitmap);
                     }else if (downX > viewWidth/3*2){
+                        factory.drawPreviousBitmap(previousBitmap);
+                        factory.drawCurrentBitmap(currentBitmap);
                         touchState = TOUCH_RIGHT;
                     }else {
                         touchState = TOUCH_MIDDLE;
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
+                    moveX = x - downX;
                     if (touchState == TOUCH_LEFT){
                         scrollPage(x,y);
                     }else if ((touchState == TOUCH_RIGHT)){
@@ -120,11 +142,25 @@ public class ReadView extends View {
                     break;
                 case MotionEvent.ACTION_UP:
                     autoScroll();
+                    moveX = 0;
                     break;
             }
         }
-        return super.onTouchEvent(event);
+        return true;
 
+    }
+
+    public void setPageFactory(final PageFactory pageFactory){
+        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                getViewTreeObserver().removeOnPreDrawListener(this);
+                factory = pageFactory;
+                factory.drawCurrentBitmap(currentBitmap);
+                postInvalidate();
+                return true;
+            }
+        });
     }
 
     private void scrollPage(float x,float y){
@@ -164,6 +200,10 @@ public class ReadView extends View {
     }
 
     private void autoScroll(){
+        if (Math.abs(moveX) < viewWidth/3){
+            startCancelAnim();
+            return;
+        }
         if (touchState == TOUCH_LEFT){
             autoScrollToPreviousPage();
         }else if (touchState == TOUCH_RIGHT){
@@ -178,6 +218,8 @@ public class ReadView extends View {
         dy = (int)(touchPoint.getY());
         int time = (int)((1+scrollLeft/viewWidth) * scrollTime);
         scroller.startScroll((int)(viewWidth+scrollLeft),(int)touchPoint.getY(),dx,dy,time);
+        invalidate();
+        currentPage ++;
     }
 
     private void autoScrollToPreviousPage(){
@@ -187,6 +229,8 @@ public class ReadView extends View {
         dy = (int)(touchPoint.getY());
         int time = (int)((-scrollLeft/viewWidth) * scrollTime);
         scroller.startScroll((int)(viewWidth+scrollLeft),(int)touchPoint.getY(),dx,dy,time);
+        invalidate();
+        currentPage --;
     }
 
     @Override
@@ -204,7 +248,15 @@ public class ReadView extends View {
 
     private void resetView(){
         scrollLeft = 0;
-        touchPoint.setX(0);
-        touchPoint.setY(0);
+        touchPoint.setX(-1);
+        touchPoint.setY(-1);
+    }
+
+    private void startCancelAnim(){
+        int dx,dy;
+        dx = (int) (viewWidth-1-touchPoint.getX());
+        dy = (int) (touchPoint.getY());
+        scroller.startScroll((int) touchPoint.getX(), (int) touchPoint.getY(), dx, dy, scrollTime);
+        invalidate();
     }
 }

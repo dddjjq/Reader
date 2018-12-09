@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.ReadActivity">
-    <com.welson.reader.view.ReadOldView
+    <com.welson.reader.view.readview.ReadView
+        android:id="@+id/read_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.welson.reader.view.ReadOldView>
+    </com.welson.reader.view.readview.ReadView>
 </RelativeLayout>
