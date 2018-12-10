@@ -1,5 +1,6 @@
 package com.welson.reader.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -48,6 +49,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 Intent intent = new Intent(getContext(), CommunityDetailActivity.class);
                 intent.putExtra("block","ramble");
                 getContext().startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.window_enter_anim,0);
                 break;
             case R.id.community_comment_item:
 
@@ -59,6 +61,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 Intent intent4 = new Intent(getContext(), CommunityDetailActivity.class);
                 intent4.putExtra("block","original");
                 getContext().startActivity(intent4);
+                getActivity().overridePendingTransition(R.anim.window_enter_anim,0);
                 break;
         }
     }

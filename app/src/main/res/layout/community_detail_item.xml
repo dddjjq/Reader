@@ -3,11 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
     <com.welson.reader.view.CircleImageView
         android:id="@+id/community_detail_image"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@drawable/bookshelf_image_default"/>
     <TextView
         android:id="@+id/community_detail_author"
@@ -17,14 +20,15 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/community_detail_image"
         android:text="追书家的眼镜娘 lv.10"
-        android:textSize="11sp"/>
+        android:textSize="12sp"/>
     <TextView
         android:id="@+id/community_detail_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/community_detail_author"
         android:layout_alignParentEnd="true"
-        android:text="2 days ago"/>
+        android:text="2 days ago"
+        android:textSize="12sp"/>
     <TextView
         android:id="@+id/community_detail_title"
         android:layout_marginTop="5dp"
@@ -43,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="5dp">
         <ImageView
             android:id="@+id/community_item_comment_image"
             android:layout_width="13dp"
@@ -56,7 +60,8 @@
             android:layout_height="wrap_content"
             android:textColor="#c0c0c0"
             android:layout_marginStart="5dp"
-            android:text="331"/>
+            android:text="331"
+            android:textSize="12sp"/>
         <ImageView
             android:id="@+id/community_item_love_image"
             android:layout_width="13dp"
@@ -70,6 +75,7 @@
             android:layout_height="wrap_content"
             android:textColor="#c0c0c0"
             android:layout_marginStart="5dp"
+            android:textSize="12sp"
             android:text="52"/>
     </LinearLayout>
 </RelativeLayout>
