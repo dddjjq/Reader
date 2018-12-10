@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorMain"/>
     <LinearLayout
+        android:layout_below="@id/toolbar"
         android:id="@+id/community_top_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -19,36 +20,46 @@
         android:background="@color/colorMain"
         android:gravity="center">
         <LinearLayout
+            android:id="@+id/community_top_left"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@drawable/community_top_background"
+            android:clickable="true">
             <TextView
+                android:id="@+id/community_top_left_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_community_top_all"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"/>
             <ImageView
+                android:id="@+id/community_top_left_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/community_top_indicator_up"/>
+                android:src="@drawable/community_top_indicator_down"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/community_top_right"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@drawable/community_top_background"
+            android:clickable="true">
             <TextView
+                android:id="@+id/community_top_right_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/str_community_top_default"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"/>
             <ImageView
+                android:id="@+id/community_top_right_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/community_top_indicator_up"/>
+                android:src="@drawable/community_top_indicator_down"/>
         </LinearLayout>
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
