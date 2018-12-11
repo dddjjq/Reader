@@ -119,6 +119,7 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     @Override
     public void finish() {
+        setResult(RESULT_OK);
         super.finish();
         overridePendingTransition(0,R.anim.window_exit_anim);
     }
