@@ -52,4 +52,13 @@
     <string name="str_community_top_default">默认排序</string>
     <string name="str_community_top_new">最新发布</string>
     <string name="str_community_top_most_comment">最多评论</string>
+    <string-array name="str_arr_community_left">
+        <item>全部</item>
+        <item>精品</item>
+    </string-array>
+    <string-array name="str_arr_community_right">
+        <item>默认排序</item>
+        <item>最新发布</item>
+        <item>最多评论</item>
+    </string-array>
 </resources>

@@ -1,36 +1,54 @@
 package com.welson.reader.activity;
 
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.adapter.CommunityRecyclerAdapter;
 import com.welson.reader.contract.CommunityDetailContract;
 import com.welson.reader.entity.DiscussionList;
 import com.welson.reader.presenter.CommunityDetailPresenter;
+import com.welson.reader.view.CommunityPopupWindow;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class CommunityDetailActivity extends AppCompatActivity implements CommunityDetailContract.View{
+public class CommunityDetailActivity extends AppCompatActivity implements CommunityDetailContract.View,View.OnClickListener{
 
     private CommunityDetailPresenter presenter;
     private ArrayList<DiscussionList.Post> posts;
     private RecyclerView recyclerView;
     private CommunityRecyclerAdapter adapter;
     private Toolbar toolbar;
+    private LinearLayout topLeftLayout;
+    private LinearLayout topRightLayout;
+    private TextView topLeftText;
+    private ImageView topLeftImage;
+    private TextView topRightText;
+    private ImageView topRightImage;
+    private CommunityPopupWindow communityPopupWindow;
     private String block;
     private String[] sorts = {"updated","created","comment-count"};
     private String type = "all";
     private int start = 0;
     private int limit = 20;
     private String distillate = "false";
+    private List<String> itemLeft;
+    private List<String> itemRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +56,7 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
         setContentView(R.layout.activity_community_detail);
         initView();
         initData();
+        addListener();
     }
 
     @Override
@@ -54,6 +73,12 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     private void initView(){
         recyclerView = findViewById(R.id.community_recycler);
         toolbar = findViewById(R.id.toolbar);
+        topLeftLayout = findViewById(R.id.community_top_left);
+        topRightLayout = findViewById(R.id.community_top_right);
+        topLeftText = findViewById(R.id.community_top_left_text);
+        topLeftImage = findViewById(R.id.community_top_left_image);
+        topRightText = findViewById(R.id.community_top_right_text);
+        topLeftImage = findViewById(R.id.community_top_right_image);
     }
 
     private void initData(){
@@ -76,8 +101,14 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+        itemLeft = Arrays.asList(getResources().getStringArray(R.array.str_arr_community_left));
+        itemRight = Arrays.asList(getResources().getStringArray(R.array.str_arr_community_right));
     }
 
+    private void addListener(){
+        topLeftLayout.setOnClickListener(this);
+        topRightLayout.setOnClickListener(this);
+    }
 
     @Override
     public void showSucceed(DiscussionList discussionList) {
@@ -122,5 +153,19 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
         setResult(RESULT_OK);
         super.finish();
         overridePendingTransition(0,R.anim.window_exit_anim);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.community_top_left:
+                communityPopupWindow = new CommunityPopupWindow(this,itemLeft);
+                communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP,0,0);
+                break;
+            case R.id.community_top_right:
+                communityPopupWindow = new CommunityPopupWindow(this,itemRight);
+                communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP,0,0);
+                break;
+        }
     }
 }

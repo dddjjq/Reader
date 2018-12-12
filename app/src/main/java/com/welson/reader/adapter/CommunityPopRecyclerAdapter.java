@@ -11,13 +11,14 @@ import android.widget.TextView;
 import com.welson.reader.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommunityPopRecyclerAdapter extends RecyclerView.Adapter<CommunityPopRecyclerAdapter.ViewHolder> {
 
     private Context context;
-    private ArrayList<String> items;
+    private List<String> items;
 
-    public CommunityPopRecyclerAdapter(Context context, ArrayList<String> items) {
+    public CommunityPopRecyclerAdapter(Context context, List<String> items) {
         this.context = context;
         this.items = items;
     }
