@@ -11,5 +11,6 @@ public class Constants {
     public static final String SP_GENDER_IS_MALE = "gender_is_male";
     public static final String PATH_DATA = FileUtils.createRootPath(AppUtils.getApplicationContext());
     public static final String PATH_TXT = PATH_DATA + "/book/";
-
+    public static final String SP_COMM_LEFT = "comm_left";
+    public static final String SP_COMM_RIGHT = "comm_right";
 }

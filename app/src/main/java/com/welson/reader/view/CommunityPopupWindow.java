@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +16,15 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.welson.reader.R;
+import com.welson.reader.activity.CommunityDetailActivity;
 import com.welson.reader.adapter.CommunityPopRecyclerAdapter;
+import com.welson.reader.constant.Constants;
+import com.welson.reader.util.SharedPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommunityPopupWindow extends PopupWindow implements View.OnClickListener{
+public class CommunityPopupWindow extends PopupWindow implements View.OnClickListener,CommunityPopRecyclerAdapter.OnItemClickListener{
 
     private Context context;
     private List<String> items;
@@ -28,10 +32,14 @@ public class CommunityPopupWindow extends PopupWindow implements View.OnClickLis
     private RecyclerView recyclerView;
     private ImageView imageView;
     private CommunityPopRecyclerAdapter adapter;
+    private CommunityDetailActivity activity;
+    private boolean isLeft;
+    private int currentItem;
 
-    public CommunityPopupWindow(Context context, List<String> items){
+    public CommunityPopupWindow(Context context, List<String> items, boolean isLeft){
         this.context = context;
         this.items = items;
+        this.isLeft = isLeft;
         init(context);
         initView();
         initData();
@@ -39,13 +47,12 @@ public class CommunityPopupWindow extends PopupWindow implements View.OnClickLis
     }
 
     private void init(Context context){
-        Animation animation = AnimationUtils.loadAnimation(context,R.anim.pop_anim_enter);
+        activity = (CommunityDetailActivity)context;
         contentView = LayoutInflater.from(context).inflate(R.layout.pop_community_top,null);
         setContentView(contentView);
-        //contentView.setAnimation(animation);
         setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
-        //setBackgroundDrawable(new ColorDrawable());
+        setBackgroundDrawable(new ColorDrawable());
         setFocusable(true);
         setOutsideTouchable(true);
         setTouchable(true);
@@ -62,8 +69,14 @@ public class CommunityPopupWindow extends PopupWindow implements View.OnClickLis
     }
 
     private void initData(){
-        adapter = new CommunityPopRecyclerAdapter(context,items);
+        if(isLeft){
+            currentItem = activity.leftItem;
+        }else {
+            currentItem = activity.rightItem;
+        }
+        adapter = new CommunityPopRecyclerAdapter(context,items,currentItem);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
     }
 
     private void addListener(){
@@ -78,5 +91,22 @@ public class CommunityPopupWindow extends PopupWindow implements View.OnClickLis
                 dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        Log.d("dingyl","dismiss");
+        activity.refreshUI();
+    }
+
+    @Override
+    public void onItemClick(int item) {
+        if (isLeft){
+            SharedPreferenceUtil.putInt(context,Constants.SP_COMM_LEFT,item);
+        }else {
+            SharedPreferenceUtil.putInt(context,Constants.SP_COMM_RIGHT,item);
+        }
+        dismiss();
     }
 }

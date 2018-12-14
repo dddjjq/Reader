@@ -7,6 +7,6 @@ import com.bumptech.glide.Glide;
 
 public class GlideUtil {
     public static void loadImage(Context context,String url, ImageView imageView){
-        Glide.with(context).load(url).into(imageView);
+        Glide.with(context).asBitmap().load(url).into(imageView);
     }
 }

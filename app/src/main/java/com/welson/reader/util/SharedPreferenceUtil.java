@@ -54,4 +54,11 @@ public class SharedPreferenceUtil {
         editor.putLong(key, value);
         editor.apply();
     }
+
+    public synchronized static void removeKey(Context context,String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARE_NAME,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove(key);
+        editor.apply();
+    }
 }
