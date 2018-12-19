@@ -35,6 +35,7 @@ public class CommunityPopupWindow extends PopupWindow implements View.OnClickLis
     private CommunityDetailActivity activity;
     private boolean isLeft;
     private int currentItem;
+    private OnPopWindowItemClick onPopWindowItemClick;
 
     public CommunityPopupWindow(Context context, List<String> items, boolean isLeft){
         this.context = context;
@@ -107,6 +108,17 @@ public class CommunityPopupWindow extends PopupWindow implements View.OnClickLis
         }else {
             SharedPreferenceUtil.putInt(context,Constants.SP_COMM_RIGHT,item);
         }
+        if(onPopWindowItemClick != null){
+            onPopWindowItemClick.onItemClick(isLeft,item);
+        }
         dismiss();
+    }
+
+    public interface OnPopWindowItemClick{
+        void onItemClick(boolean isLeft,int item);
+    }
+
+    public void setOnPopWindowItemClick(OnPopWindowItemClick onPopWindowItemClick){
+        this.onPopWindowItemClick = onPopWindowItemClick;
     }
 }

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.adapter.CommunityRecyclerAdapter;
+import com.welson.reader.base.OnRefreshListener;
 import com.welson.reader.constant.Constants;
 import com.welson.reader.contract.CommunityDetailContract;
 import com.welson.reader.entity.DiscussionList;
@@ -30,7 +31,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class CommunityDetailActivity extends AppCompatActivity implements CommunityDetailContract.View,View.OnClickListener{
+public class CommunityDetailActivity extends AppCompatActivity implements CommunityDetailContract.View
+        ,View.OnClickListener,CommunityPopupWindow.OnPopWindowItemClick,OnRefreshListener{
 
     private CommunityDetailPresenter presenter;
     private ArrayList<DiscussionList.Post> posts;
@@ -45,14 +47,18 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     private ImageView topRightImage;
     private CommunityPopupWindow communityPopupWindow;
     private String block;
+    private String sort = "updated";//"updated","created","comment-count"
     private String[] sorts = {"updated","created","comment-count"};
     private String type = "all";
     private int start = 0;
     private int limit = 20;
     private String distillate = "";
+    private String[] distillates = {"","true"};
     private List<String> itemsLeft;
     private List<String> itemsRight;
     public int leftItem,rightItem;
+    private boolean isDataClear = false;
+    private CommunityRecyclerAdapter.TopViewHolder topViewHolder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,12 +117,13 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter = new CommunityDetailPresenter();
         presenter.attachView(this);
-        presenter.requestDiscuss(block,"all",sorts[0],type,start,limit,distillate);
-        adapter = new CommunityRecyclerAdapter(posts,this);
+        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
+        adapter = new CommunityRecyclerAdapter(posts,this,recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+        adapter.setOnRefreshListener(this);
         itemsLeft = Arrays.asList(getResources().getStringArray(R.array.str_arr_community_left));
         itemsRight = Arrays.asList(getResources().getStringArray(R.array.str_arr_community_right));
         refreshUI();
@@ -129,7 +136,11 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     @Override
     public void showSucceed(DiscussionList discussionList) {
-        posts.clear();
+        topViewHolder = (CommunityRecyclerAdapter.TopViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(0));
+        topViewHolder.abortAnimation();
+        if(isDataClear){
+            posts.clear();
+        }
         posts.addAll(discussionList.getPosts());
         adapter.notifyDataSetChanged();
     }
@@ -141,7 +152,8 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     @Override
     public void showError() {
-
+        topViewHolder = (CommunityRecyclerAdapter.TopViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(0));
+        topViewHolder.abortAnimation();
     }
 
     @Override
@@ -187,13 +199,41 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
             case R.id.community_top_left:
                 communityPopupWindow = new CommunityPopupWindow(this,itemsLeft,true);
                 communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP,0,0);
+                communityPopupWindow.setOnPopWindowItemClick(CommunityDetailActivity.this);
                 topLeftImage.setImageResource(R.drawable.community_top_indicator_up);
                 break;
             case R.id.community_top_right:
                 communityPopupWindow = new CommunityPopupWindow(this,itemsRight,false);
                 communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP,0,0);
                 topRightImage.setImageResource(R.drawable.community_top_indicator_up);
+                communityPopupWindow.setOnPopWindowItemClick(CommunityDetailActivity.this);
                 break;
         }
+    }
+
+    private void requestData(boolean isLeft,int item){
+        isDataClear = true;
+        if (isLeft){
+            distillate = distillates[item];
+        }else {
+            sort = sorts[item];
+        }
+        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
+    }
+
+
+    @Override
+    public void onItemClick(boolean isLeft, int item) {
+        requestData(isLeft,item);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
+    }
+
+    @Override
+    public void onLoadMore() {
+
     }
 }

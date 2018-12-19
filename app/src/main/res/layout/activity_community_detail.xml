@@ -62,7 +62,7 @@
                 android:src="@drawable/community_top_indicator_down"/>
         </LinearLayout>
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
+    <com.welson.reader.view.CommunityRecyclerView
         android:layout_below="@id/community_top_layout"
         android:id="@+id/community_recycler"
         android:layout_width="match_parent"
