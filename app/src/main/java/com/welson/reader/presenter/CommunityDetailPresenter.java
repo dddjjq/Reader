@@ -1,5 +1,7 @@
 package com.welson.reader.presenter;
 
+import android.util.Log;
+
 import com.welson.reader.base.BaseView;
 import com.welson.reader.contract.CommunityDetailContract;
 import com.welson.reader.entity.DiscussionList;
@@ -32,6 +34,7 @@ public class CommunityDetailPresenter extends AbstractPresenter implements Commu
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d("dingyl","onError");
                         e.printStackTrace();
                     }
 

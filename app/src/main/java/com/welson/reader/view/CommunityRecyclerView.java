@@ -46,17 +46,22 @@ public class CommunityRecyclerView extends RecyclerView {
                             getChildViewHolder(getChildAt(0));
                     topViewHolder.setTopHeight(dy);
                 }
-                Log.d("dingyl","lastVisibleItem : " + lastVisibleItem);
-                Log.d("dingyl","getChildCount : " + getChildCount());
-                if (lastVisibleItem == getAdapter().getItemCount() && currY < downY){
+                if ((lastVisibleItem == getAdapter().getItemCount()-1) && currY < downY){
                     bottomViewHolder = (CommunityRecyclerAdapter.BottomViewHolder)
-                            getChildViewHolder(getChildAt(getAdapter().getItemCount()));
+                            getChildViewHolder(getChildAt(getChildCount()-1));
                     bottomViewHolder.setTopHeight(-dy);
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                Log.d("dingyl","ACTION_UP");
                 if(topViewHolder != null && firstVisibleItem == 0){
                     topViewHolder.releaseArrow(dy);
+                }
+                Log.d("dingyl","lastVisibleItem : " + lastVisibleItem);
+                Log.d("dingyl","getAdapter().getItemCount() : " + getAdapter().getItemCount());
+                if (bottomViewHolder != null){
+                    Log.d("dingyl","releaseLoad");
+                    bottomViewHolder.releaseLoad(-dy);
                 }
                 break;
         }

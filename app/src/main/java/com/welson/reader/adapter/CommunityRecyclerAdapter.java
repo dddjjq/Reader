@@ -52,12 +52,12 @@ public class CommunityRecyclerAdapter extends RecyclerView.Adapter {
         if (viewType == TYPE_HEAD){
             View view = LayoutInflater.from(context).inflate(R.layout.community_detail_top,viewGroup,false);
             return new TopViewHolder(view);
-        }else if (viewType == TYPE_NORMAL){
-            View view = LayoutInflater.from(context).inflate(R.layout.community_detail_item,viewGroup,false);
-            return new NormalViewHolder(view);
-        }else {
+        }else if (viewType == TYPE_END){
             View view = LayoutInflater.from(context).inflate(R.layout.community_detail_bottom,viewGroup,false);
             return new BottomViewHolder(view);
+        }else {
+            View view = LayoutInflater.from(context).inflate(R.layout.community_detail_item,viewGroup,false);
+            return new NormalViewHolder(view);
         }
 
     }
@@ -68,6 +68,8 @@ public class CommunityRecyclerAdapter extends RecyclerView.Adapter {
             case TYPE_HEAD:
                 break;
             case TYPE_NORMAL:
+                if (posts.size() == 0)
+                    return;
                 final int truePosition = i - 1;
                 NormalViewHolder normalViewHolder = (NormalViewHolder)viewHolder;
                 GlideUtil.loadImage(context, Constants.IMG_BASE_URL + posts.get(truePosition).getAuthor().getAvatar(),normalViewHolder.itemImage);
@@ -109,7 +111,7 @@ public class CommunityRecyclerAdapter extends RecyclerView.Adapter {
         return author + " lv." + level;
     }
 
-    class NormalViewHolder extends RecyclerView.ViewHolder{
+    public class NormalViewHolder extends RecyclerView.ViewHolder{
         private CircleImageView itemImage;
         private TextView author;
         private TextView time;
@@ -187,26 +189,45 @@ public class CommunityRecyclerAdapter extends RecyclerView.Adapter {
     public class BottomViewHolder extends RecyclerView.ViewHolder{
 
         private ImageView loadImage;
+        private RelativeLayout loadLayout;
         private ObjectAnimator animator;
 
         BottomViewHolder(@NonNull View itemView) {
             super(itemView);
             loadImage = itemView.findViewById(R.id.community_item_bottom_image);
+            loadLayout = itemView.findViewById(R.id.community_bottom_arrow_layout);
             animator = ObjectAnimator.ofFloat(loadImage,"rotation",0,360);
             animator.setInterpolator(new LinearInterpolator());
             animator.setRepeatCount(ValueAnimator.INFINITE);
             animator.setDuration(1000);
-            animator.start();
         }
 
         public void setTopHeight(float height){
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams)itemView.getLayoutParams();
-            if (height < 250){
+            if (height < 200){
                 params.height = (int)height;
                 itemView.setLayoutParams(params);
             }
         }
 
+        public void releaseLoad(float height){
+            if (height < 100){
+                setTopHeight(0);
+                loadImage.setVisibility(View.GONE);
+                animator.cancel();
+            }else {
+                setTopHeight(200);
+                onRefreshListener.onLoadMore();
+                loadImage.setVisibility(View.VISIBLE);
+                animator.start();
+            }
+        }
+
+        public void abortAnimation(){
+            animator.cancel();
+            setTopHeight(0);
+            loadImage.setRotation(0); //防止属性动画旋转 类似于属性动画用反射修改rotation.
+        }
     }
 
 

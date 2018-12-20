@@ -59,6 +59,9 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     public int leftItem,rightItem;
     private boolean isDataClear = false;
     private CommunityRecyclerAdapter.TopViewHolder topViewHolder;
+    private CommunityRecyclerAdapter.BottomViewHolder bottomViewHolder;
+    private LinearLayoutManager linearLayoutManager;
+    private int firstVisibleItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,8 +139,7 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     @Override
     public void showSucceed(DiscussionList discussionList) {
-        topViewHolder = (CommunityRecyclerAdapter.TopViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(0));
-        topViewHolder.abortAnimation();
+        abortAnimation();
         if(isDataClear){
             posts.clear();
         }
@@ -152,8 +154,21 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     @Override
     public void showError() {
-        topViewHolder = (CommunityRecyclerAdapter.TopViewHolder) recyclerView.getChildViewHolder(recyclerView.getChildAt(0));
-        topViewHolder.abortAnimation();
+        abortAnimation();
+    }
+
+    private void abortAnimation(){
+        linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager();
+        firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+        if (isDataClear && firstVisibleItem == 0){
+            topViewHolder = (CommunityRecyclerAdapter.TopViewHolder)
+                    recyclerView.getChildViewHolder(recyclerView.getChildAt(0));
+            topViewHolder.abortAnimation();
+        }else if(!isDataClear && firstVisibleItem == adapter.getItemCount()-1){
+            bottomViewHolder = (CommunityRecyclerAdapter.BottomViewHolder)recyclerView.getChildViewHolder
+                    (recyclerView.getChildAt(recyclerView.getChildCount()-1));
+            bottomViewHolder.abortAnimation();
+        }
     }
 
     @Override
@@ -213,6 +228,7 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     private void requestData(boolean isLeft,int item){
         isDataClear = true;
+        start = 0;
         if (isLeft){
             distillate = distillates[item];
         }else {
@@ -229,11 +245,15 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     @Override
     public void onRefresh() {
+        isDataClear = true;
+        start = 0;
         presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
     }
 
     @Override
     public void onLoadMore() {
-
+        isDataClear = false;
+        start += 20;
+        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
     }
 }
