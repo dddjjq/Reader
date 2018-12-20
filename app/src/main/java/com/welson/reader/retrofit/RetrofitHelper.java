@@ -2,6 +2,7 @@ package com.welson.reader.retrofit;
 
 import com.google.gson.GsonBuilder;
 import com.welson.reader.constant.Constants;
+import com.welson.reader.entity.BookDetail;
 import com.welson.reader.entity.BookMixAToc;
 import com.welson.reader.entity.BookSource;
 import com.welson.reader.entity.ChapterRead;
@@ -84,5 +85,9 @@ public class RetrofitHelper {
 
     public Observable<DiscussionList> getBookDiscussionList(String block,String duration,String sort,String type,int start,int limit,String distillate){
         return apiService.getBookDiscussionList(block, duration, sort, type, start, limit, distillate);
+    }
+
+    public Observable<BookDetail> getBookDetail(String bookId){
+        return apiService.getBookDetail(bookId);
     }
 }
