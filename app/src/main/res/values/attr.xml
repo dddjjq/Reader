@@ -19,4 +19,9 @@
         <item name="android:windowEnterAnimation">@anim/pop_anim_enter</item>
         <item name="android:windowExitAnimation">@anim/pop_anim_exit</item>
     </style>
+    <declare-styleable name="BookRedButton">
+        <attr name="btnIcon" format="reference"/>
+        <attr name="btnText" format="string"/>
+        <attr name="backColor" format="color"/>
+    </declare-styleable>
 </resources>

@@ -1,6 +1,7 @@
 package com.welson.reader.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.welson.reader.R;
+import com.welson.reader.activity.BookDetailActivity;
 import com.welson.reader.constant.Constants;
 import com.welson.reader.entity.Rankings;
 import com.welson.reader.util.GlideUtil;
@@ -42,6 +44,13 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
         viewHolder.rankDetailChapter.setText(getTrueString(books.get(i).getShortIntro()).trim());
         viewHolder.rankDetailReader.setText(getSaveString(books.get(i).getLatelyFollower(),books.get(i).getRetentionRatio()));
         GlideUtil.loadImage(context, Constants.IMG_BASE_URL+books.get(i).getCover(),viewHolder.rankDetailImage);
+        viewHolder.rankDetailItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,BookDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
