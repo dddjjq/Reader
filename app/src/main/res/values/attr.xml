@@ -24,4 +24,8 @@
         <attr name="btnText" format="string"/>
         <attr name="backColor" format="color"/>
     </declare-styleable>
+    <declare-styleable name="BookReadEntityLayout">
+        <attr name="entityTitle" format="string"/>
+        <attr name="entityContent" format="string"/>
+    </declare-styleable>
 </resources>
