@@ -1,5 +1,7 @@
 package com.welson.reader.presenter;
 
+import android.util.Log;
+
 import com.welson.reader.base.BaseView;
 import com.welson.reader.contract.BookDetailContract;
 import com.welson.reader.entity.BookDetail;
@@ -27,11 +29,13 @@ public class BookDetailPresenter extends AbstractPresenter implements BookDetail
 
                     @Override
                     public void onNext(BookDetail bookDetail) {
+                        Log.d("dingyl","onNext");
                         view.showSucceed(bookDetail);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d("dingyl","onError");
                         e.printStackTrace();
                     }
 

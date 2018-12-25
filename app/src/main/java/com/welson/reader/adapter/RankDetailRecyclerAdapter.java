@@ -39,6 +39,7 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        final int position = i;
         viewHolder.rankDetailTitle.setText(books.get(i).getTitle());
         viewHolder.rankDetailAuthor.setText(books.get(i).getAuthor() + context.getString(R.string.str_rank_detail_author));
         viewHolder.rankDetailChapter.setText(getTrueString(books.get(i).getShortIntro()).trim());
@@ -48,6 +49,7 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context,BookDetailActivity.class);
+                intent.putExtra("bookId",books.get(position).get_id());
                 context.startActivity(intent);
             }
         });

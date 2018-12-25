@@ -13,6 +13,7 @@ public class BookDetail implements Serializable{
     private String cover;
     private String majorCateV2;
     private String minorCateV2;
+    private boolean allowFree;
     private String originalAuthor;
     private Object[] anchors;
     private String authorDesc;
@@ -39,7 +40,7 @@ public class BookDetail implements Serializable{
     private String retentionRatio;
     private String updated;
     private boolean isSerial;
-    private boolean chaptersCount;
+    private int chaptersCount;
     private String lastChapter;
     private ArrayList<String> gender;
     private Object[] tags;
@@ -331,11 +332,11 @@ public class BookDetail implements Serializable{
         isSerial = serial;
     }
 
-    public boolean isChaptersCount() {
+    public int isChaptersCount() {
         return chaptersCount;
     }
 
-    public void setChaptersCount(boolean chaptersCount) {
+    public void setChaptersCount(int chaptersCount) {
         this.chaptersCount = chaptersCount;
     }
 
@@ -361,6 +362,18 @@ public class BookDetail implements Serializable{
 
     public void setTags(Object[] tags) {
         this.tags = tags;
+    }
+
+    public boolean isAllowFree() {
+        return allowFree;
+    }
+
+    public void setAllowFree(boolean allowFree) {
+        this.allowFree = allowFree;
+    }
+
+    public int getChaptersCount() {
+        return chaptersCount;
     }
 
     public boolean isAdvertRead() {
