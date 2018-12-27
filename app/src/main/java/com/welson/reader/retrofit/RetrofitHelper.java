@@ -7,9 +7,11 @@ import com.welson.reader.entity.BookMixAToc;
 import com.welson.reader.entity.BookSource;
 import com.welson.reader.entity.ChapterRead;
 import com.welson.reader.entity.DiscussionList;
+import com.welson.reader.entity.HotReview;
 import com.welson.reader.entity.RankingList;
 import com.welson.reader.entity.Rankings;
 import com.welson.reader.entity.Recommend;
+import com.welson.reader.entity.RecommendBookList;
 
 import java.util.List;
 
@@ -89,5 +91,13 @@ public class RetrofitHelper {
 
     public Observable<BookDetail> getBookDetail(String bookId){
         return apiService.getBookDetail(bookId);
+    }
+
+    public Observable<HotReview> getHotReview(String id){
+       return apiService.getHotReview(id);
+    }
+
+    public Observable<RecommendBookList> getRecommendBookList(String bookId,String limit){
+        return apiService.getRecommendBookList(bookId,limit);
     }
 }

@@ -1,11 +1,9 @@
 package com.welson.reader.entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+public class RecommendBookList {
 
-public class HotReview implements Serializable{
     private int total;
-    private ArrayList<Review> reviews;
+    private Review reviews;
     private boolean ok;
 
     public int getTotal() {
@@ -16,11 +14,11 @@ public class HotReview implements Serializable{
         this.total = total;
     }
 
-    public ArrayList<Review> getReviews() {
+    public Review getReviews() {
         return reviews;
     }
 
-    public void setReviews(ArrayList<Review> reviews) {
+    public void setReviews(Review reviews) {
         this.reviews = reviews;
     }
 
@@ -133,6 +131,7 @@ public class HotReview implements Serializable{
             this.title = title;
         }
     }
+
     public class Author{
         private String _id;
         private String avatar;
@@ -199,33 +198,9 @@ public class HotReview implements Serializable{
         }
     }
 
-    public class Helpful{
+    class Helpful{
         private int total;
         private int yes;
         private int no;
-
-        public int getTotal() {
-            return total;
-        }
-
-        public void setTotal(int total) {
-            this.total = total;
-        }
-
-        public int getYes() {
-            return yes;
-        }
-
-        public void setYes(int yes) {
-            this.yes = yes;
-        }
-
-        public int getNo() {
-            return no;
-        }
-
-        public void setNo(int no) {
-            this.no = no;
-        }
     }
 }

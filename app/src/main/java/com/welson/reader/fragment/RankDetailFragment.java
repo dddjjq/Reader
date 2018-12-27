@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class RankDetailFragment extends BaseFragment implements RankDetailContract.View{
 
+    private static final String TAG = "RankDetailFragment";
     private RecyclerView rankRecycler;
     private TextView noContentView;
     private RankPresenter presenter;
@@ -40,6 +41,7 @@ public class RankDetailFragment extends BaseFragment implements RankDetailContra
 
     @Override
     public void initData() {
+        Log.d(TAG,"initData");
         books = new ArrayList<>();
         adapter = new RankDetailRecyclerAdapter(getContext(),books);
         rankRecycler.setAdapter(adapter);
