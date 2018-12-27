@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.adapter.BookDetailHotReviewRecyclerAdapter;
+import com.welson.reader.adapter.BookDetailRecommendRecyclerAdapter;
 import com.welson.reader.constant.Constants;
 import com.welson.reader.contract.BookDetailContract;
 import com.welson.reader.entity.BookDetail;
@@ -49,6 +50,8 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
     private RecyclerView hotCommentRecycler;
     private RecyclerView recommendRecycler;
     private BookDetailHotReviewRecyclerAdapter hotReviewRecyclerAdapter;
+    private BookDetailRecommendRecyclerAdapter recommendRecyclerAdapter;
+    private ArrayList<RecommendBookList.BookList> bookLists;
     private ArrayList<HotReview.Review> reviews;
     private BookDetailPresenter presenter;
 
@@ -96,13 +99,16 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
         presenter.attachView(this);
         presenter.requestBookData(id);
         reviews = new ArrayList<>();
+        bookLists = new ArrayList<>();
         hotReviewRecyclerAdapter = new BookDetailHotReviewRecyclerAdapter(this,reviews);
+        recommendRecyclerAdapter = new BookDetailRecommendRecyclerAdapter(this,bookLists);
         LinearLayoutManager hotManager = new LinearLayoutManager(this);
         LinearLayoutManager recommendManager = new LinearLayoutManager(this);
         hotCommentRecycler.setLayoutManager(hotManager);
         hotCommentRecycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         recommendRecycler.setLayoutManager(recommendManager);
         hotCommentRecycler.setAdapter(hotReviewRecyclerAdapter);
+        recommendRecycler.setAdapter(recommendRecyclerAdapter);
     }
 
     private void addListener(){
@@ -147,6 +153,10 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
         reviews.clear();
         reviews.addAll(hotReview.getReviews());
         hotReviewRecyclerAdapter.notifyDataSetChanged();
+
+        bookLists.clear();
+        bookLists.addAll(recommendBookList.getBooklists());
+        recommendRecyclerAdapter.notifyDataSetChanged();
     }
 
     @Override

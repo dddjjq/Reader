@@ -157,19 +157,22 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp">
                 <TextView
                     android:id="@+id/book_detail_hot_comment_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_book_detail_hot_comment"
                     android:textColor="#000000"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:layout_marginStart="20dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:text="@string/str_book_detail_more_comment"/>
+                    android:text="@string/str_book_detail_more_comment"
+                    android:layout_marginEnd="20dp"/>
                 <android.support.v7.widget.RecyclerView
                     android:layout_below="@id/book_detail_hot_comment_title"
                     android:id="@+id/book_detail_hot_comment_recycler"
@@ -212,15 +215,16 @@
                 android:src="#EEEEEE"/>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:layout_height="wrap_content">
                 <TextView
                     android:id="@+id/book_detail_recommend_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/str_book_detail_recommend_title"
                     android:textColor="#000000"
-                    android:textSize="15sp"/>
+                    android:textSize="15sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"/>
                 <android.support.v7.widget.RecyclerView
                     android:layout_below="@id/book_detail_recommend_title"
                     android:id="@+id/book_detail_recommend_recycler"

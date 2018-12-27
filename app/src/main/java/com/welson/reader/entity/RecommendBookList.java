@@ -1,26 +1,12 @@
 package com.welson.reader.entity;
 
+import java.util.ArrayList;
+
 public class RecommendBookList {
 
-    private int total;
-    private Review reviews;
     private boolean ok;
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public Review getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(Review reviews) {
-        this.reviews = reviews;
-    }
+    private ArrayList<BookList> booklists;
+    private int total;
 
     public boolean isOk() {
         return ok;
@@ -30,97 +16,38 @@ public class RecommendBookList {
         this.ok = ok;
     }
 
-    public class Review{
-        private String _id;
-        private int rating;
-        private Author author;
-        private Helpful helpful;
-        private int likeCount;
-        private String state;
-        private String updated;
-        private String created;
-        private int commentCount;
-        private String content;
+    public ArrayList<BookList> getBooklists() {
+        return booklists;
+    }
+
+    public void setBooklists(ArrayList<BookList> booklists) {
+        this.booklists = booklists;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public class BookList{
+        private String id;
         private String title;
+        private String author;
+        private String desc;
+        private int bookCount;
+        private String cover;
+        private int collectorCount;
+        private String[] covers;
 
-        public String get_id() {
-            return _id;
+        public String getId() {
+            return id;
         }
 
-        public void set_id(String _id) {
-            this._id = _id;
-        }
-
-        public int getRating() {
-            return rating;
-        }
-
-        public void setRating(int rating) {
-            this.rating = rating;
-        }
-
-        public Author getAuthor() {
-            return author;
-        }
-
-        public void setAuthor(Author author) {
-            this.author = author;
-        }
-
-        public Helpful getHelpful() {
-            return helpful;
-        }
-
-        public void setHelpful(Helpful helpful) {
-            this.helpful = helpful;
-        }
-
-        public int getLikeCount() {
-            return likeCount;
-        }
-
-        public void setLikeCount(int likeCount) {
-            this.likeCount = likeCount;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public String getUpdated() {
-            return updated;
-        }
-
-        public void setUpdated(String updated) {
-            this.updated = updated;
-        }
-
-        public String getCreated() {
-            return created;
-        }
-
-        public void setCreated(String created) {
-            this.created = created;
-        }
-
-        public int getCommentCount() {
-            return commentCount;
-        }
-
-        public void setCommentCount(int commentCount) {
-            this.commentCount = commentCount;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
+        public void setId(String id) {
+            this.id = id;
         }
 
         public String getTitle() {
@@ -130,77 +57,53 @@ public class RecommendBookList {
         public void setTitle(String title) {
             this.title = title;
         }
-    }
 
-    public class Author{
-        private String _id;
-        private String avatar;
-        private String nickname;
-        private String activityAvatar;
-        private String type;
-        private int lv;
-        private String gender;
-
-        public String get_id() {
-            return _id;
+        public String getAuthor() {
+            return author;
         }
 
-        public void set_id(String _id) {
-            this._id = _id;
+        public void setAuthor(String author) {
+            this.author = author;
         }
 
-        public String getAvatar() {
-            return avatar;
+        public String getDesc() {
+            return desc;
         }
 
-        public void setAvatar(String avatar) {
-            this.avatar = avatar;
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
 
-        public String getNickname() {
-            return nickname;
+        public int getBookCount() {
+            return bookCount;
         }
 
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
+        public void setBookCount(int bookCount) {
+            this.bookCount = bookCount;
         }
 
-        public String getActivityAvatar() {
-            return activityAvatar;
+        public String getCover() {
+            return cover;
         }
 
-        public void setActivityAvatar(String activityAvatar) {
-            this.activityAvatar = activityAvatar;
+        public void setCover(String cover) {
+            this.cover = cover;
         }
 
-        public String getType() {
-            return type;
+        public int getCollectorCount() {
+            return collectorCount;
         }
 
-        public void setType(String type) {
-            this.type = type;
+        public void setCollectorCount(int collectorCount) {
+            this.collectorCount = collectorCount;
         }
 
-        public int getLv() {
-            return lv;
+        public String[] getCovers() {
+            return covers;
         }
 
-        public void setLv(int lv) {
-            this.lv = lv;
+        public void setCovers(String[] covers) {
+            this.covers = covers;
         }
-
-        public String getGender() {
-            return gender;
-        }
-
-        public void setGender(String gender) {
-            this.gender = gender;
-        }
-    }
-
-    class Helpful{
-        private int total;
-        private int yes;
-        private int no;
     }
 }
