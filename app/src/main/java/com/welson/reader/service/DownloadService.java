@@ -153,7 +153,7 @@ public class DownloadService extends Service {
     }
 
     private void removeDisposable(){
-        if (compositeDisposable.isDisposed()){
+        if (compositeDisposable != null && compositeDisposable.isDisposed()){
             compositeDisposable.dispose();
         }
     }

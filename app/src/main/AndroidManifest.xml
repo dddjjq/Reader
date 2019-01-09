@@ -30,7 +30,8 @@
             android:exported="false" />
 
         <activity android:name=".activity.CommunityDetailActivity" />
-        <activity android:name=".activity.BookDetailActivity"></activity>
+        <activity android:name=".activity.BookDetailActivity" />
+        <activity android:name=".activity.BookReviewActivity"></activity>
     </application>
 
 </manifest>

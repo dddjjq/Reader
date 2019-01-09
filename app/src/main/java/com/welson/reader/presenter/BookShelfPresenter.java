@@ -42,6 +42,7 @@ public class BookShelfPresenter extends AbstractPresenter implements MainContrac
 
     @Override
     public void requestRecommendData(String gender) {
+        if (view == null) return;
         RetrofitHelper.getInstance().getRecommend(gender)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -2,11 +2,11 @@ package com.welson.reader.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.welson.reader.R;
+import com.welson.reader.activity.BookReviewActivity;
 import com.welson.reader.activity.CommunityDetailActivity;
 import com.welson.reader.activity.MainActivity;
 
@@ -55,7 +55,8 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 getActivity().overridePendingTransition(R.anim.window_enter_anim,0);
                 break;
             case R.id.community_comment_item:
-
+                Intent intent2 = new Intent(getContext(), BookReviewActivity.class);
+                startActivity(intent2);
                 break;
             case R.id.community_helper_item:
 

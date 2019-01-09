@@ -25,6 +25,7 @@ public class BookDetailPresenter extends AbstractPresenter implements BookDetail
 
     @Override
     public void requestBookData(String id) {
+        if (view == null) return;
         Observable.zip(RetrofitHelper.getInstance().getBookDetail(id),RetrofitHelper.getInstance().getHotReview(id),
                 RetrofitHelper.getInstance().getRecommendBookList(id,String.valueOf(3))
                 ,new Function3<BookDetail, HotReview, RecommendBookList, BookDetailEntity>(){

@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.welson.reader.constant.Constants;
 import com.welson.reader.entity.BookDetail;
 import com.welson.reader.entity.BookMixAToc;
+import com.welson.reader.entity.BookReviewList;
 import com.welson.reader.entity.BookSource;
 import com.welson.reader.entity.ChapterRead;
 import com.welson.reader.entity.DiscussionList;
@@ -99,5 +100,9 @@ public class RetrofitHelper {
 
     public Observable<RecommendBookList> getRecommendBookList(String bookId,String limit){
         return apiService.getRecommendBookList(bookId,limit);
+    }
+
+    public Observable<BookReviewList> getBookReviewList(String duration,String sort,String type,int start,int limit,String distillate){
+        return apiService.getBookReviewList(duration,sort,type,start,limit,distillate);
     }
 }

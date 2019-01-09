@@ -16,6 +16,7 @@ public class RankListPresenter extends AbstractPresenter implements RankListCont
 
     @Override
     public void requestRankListData() {
+        if (view == null) return;
         RetrofitHelper.getInstance().getRankings()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -22,6 +22,7 @@ public class RankPresenter extends AbstractPresenter implements RankDetailContra
 
     @Override
     public void requestRankData(String id) {
+        if (view == null) return;
         RetrofitHelper.getInstance().getRanking(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

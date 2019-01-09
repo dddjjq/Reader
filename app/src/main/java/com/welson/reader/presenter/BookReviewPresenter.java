@@ -1,10 +1,8 @@
 package com.welson.reader.presenter;
 
-import android.util.Log;
-
 import com.welson.reader.base.BaseView;
-import com.welson.reader.contract.CommunityDetailContract;
-import com.welson.reader.entity.DiscussionList;
+import com.welson.reader.contract.BookReviewContract;
+import com.welson.reader.entity.BookReviewList;
 import com.welson.reader.retrofit.RetrofitHelper;
 
 import io.reactivex.Observer;
@@ -12,31 +10,31 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class CommunityDetailPresenter extends AbstractPresenter implements CommunityDetailContract.Presenter{
+public class BookReviewPresenter extends AbstractPresenter implements BookReviewContract.Presenter{
 
-    private CommunityDetailContract.View view;
+    private BookReviewContract.View view;
 
     @Override
-    public void requestDiscuss(String block, String duration, String sort, String type, int start, int limit, String distillate) {
+    public void requestData(String duration, String sort, String type, int start, int limit, String distillate) {
         if (view == null) return;
-        RetrofitHelper.getInstance().getBookDiscussionList(block, duration, sort, type, start, limit, distillate)
+        RetrofitHelper.getInstance().getBookReviewList(duration,sort,type,start,limit,distillate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DiscussionList>() {
+                .subscribe(new Observer<BookReviewList>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         addDisposable(d);
                     }
 
                     @Override
-                    public void onNext(DiscussionList discussionList) {
-                        view.showSucceed(discussionList);
+                    public void onNext(BookReviewList bookReviewList) {
+                        view.showSucceed(bookReviewList);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dingyl","onError");
                         e.printStackTrace();
+                        view.showError();
                     }
 
                     @Override
@@ -48,12 +46,12 @@ public class CommunityDetailPresenter extends AbstractPresenter implements Commu
 
     @Override
     public void attachView(BaseView baseView) {
-        view = (CommunityDetailContract.View) baseView;
+        view = (BookReviewContract.View) baseView;
     }
 
     @Override
     public void detachView() {
-        if (view != null){
+        if(view != null){
             view = null;
         }
     }
