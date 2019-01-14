@@ -13,7 +13,7 @@ public class BookViewPagerAdapter extends PagerAdapter {
 
     private ArrayList<BaseReadView> baseReadViews;
 
-    public BookViewPagerAdapter(ArrayList<BaseReadView> baseReadViews){
+    public BookViewPagerAdapter(ArrayList<BaseReadView> baseReadViews) {
         this.baseReadViews = baseReadViews;
     }
 
@@ -29,14 +29,14 @@ public class BookViewPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView(baseReadViews.get(position% baseReadViews.size()));
+        container.removeView(baseReadViews.get(position % baseReadViews.size()));
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        container.addView(baseReadViews.get(position% baseReadViews.size()));
-        return baseReadViews.get(position% baseReadViews.size());
+        container.addView(baseReadViews.get(position % baseReadViews.size()));
+        return baseReadViews.get(position % baseReadViews.size());
     }
 
 

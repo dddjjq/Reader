@@ -16,7 +16,6 @@ import com.welson.reader.manager.CacheManager;
 import com.welson.reader.retrofit.RetrofitHelper;
 import com.welson.reader.util.BookContentUtil;
 
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -64,16 +63,13 @@ public class DownloadService extends Service {
     public void onDestroy() {
         super.onDestroy();
         removeDisposable();
-        if(eventBus.isRegistered(this))
+        if (eventBus.isRegistered(this))
             eventBus.unregister(this);
     }
 
-
-    private void download(String url, final String bookId, final int chapter,final String title){
-        RetrofitHelper.getInstance().getChapterRead(url)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ChapterRead>() {
+    private void download(String url, final String bookId, final int chapter, final String title) {
+        RetrofitHelper.getInstance().getChapterRead(url).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<ChapterRead>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         addDisposable(d);
@@ -81,9 +77,8 @@ public class DownloadService extends Service {
 
                     @Override
                     public void onNext(ChapterRead chapterRead) {
-                        CacheManager.getInstance().saveChapterFile(bookId,chapter, BookContentUtil
-                                .getSaveString(title
-                                        ,chapterRead.getChapter().getBody()));
+                        CacheManager.getInstance().saveChapterFile(bookId, chapter,
+                                BookContentUtil.getSaveString(title, chapterRead.getChapter().getBody()));
                     }
 
                     @Override
@@ -107,11 +102,9 @@ public class DownloadService extends Service {
                 });
     }
 
-    private void getChapter(String bookId, final List<Integer> mChapters){
-        RetrofitHelper.getInstance().getBookMixAToc(bookId,"chapters")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<BookMixAToc>() {
+    private void getChapter(String bookId, final List<Integer> mChapters) {
+        RetrofitHelper.getInstance().getBookMixAToc(bookId, "chapters").subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<BookMixAToc>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         addDisposable(d);
@@ -122,11 +115,12 @@ public class DownloadService extends Service {
                         executorService.execute(new Runnable() {
                             @Override
                             public void run() {
-                                for (Integer chapter : mChapters){
+                                for (Integer chapter : mChapters) {
                                     int trueChapter = chapter - 1;
-                                    if (mBookMixAToc.isOk()){
-                                        download(mBookMixAToc.getMixToc().getChapters().get(trueChapter).getLink(),mBookMixAToc
-                                                .getMixToc().getBook(),chapter,mBookMixAToc.getMixToc().getChapters().get(trueChapter).getTitle());
+                                    if (mBookMixAToc.isOk()) {
+                                        download(mBookMixAToc.getMixToc().getChapters().get(trueChapter).getLink(),
+                                                mBookMixAToc.getMixToc().getBook(), chapter,
+                                                mBookMixAToc.getMixToc().getChapters().get(trueChapter).getTitle());
                                     }
                                 }
                             }
@@ -145,21 +139,21 @@ public class DownloadService extends Service {
                 });
     }
 
-    private void addDisposable(Disposable disposable){
-        if(compositeDisposable == null){
+    private void addDisposable(Disposable disposable) {
+        if (compositeDisposable == null) {
             compositeDisposable = new CompositeDisposable();
         }
         compositeDisposable.add(disposable);
     }
 
-    private void removeDisposable(){
-        if (compositeDisposable != null && compositeDisposable.isDisposed()){
+    private void removeDisposable() {
+        if (compositeDisposable != null && compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void downloadEvent(DownloadEvent message){
+    public void downloadEvent(DownloadEvent message) {
         getChapter(message.getBookId(), message.getChapters());
     }
 

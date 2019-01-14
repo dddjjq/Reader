@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CommunityDetailActivity extends AppCompatActivity implements CommunityDetailContract.View
-        ,View.OnClickListener,CommunityPopupWindow.OnPopWindowItemClick,OnRefreshListener{
+        , View.OnClickListener, CommunityPopupWindow.OnPopWindowItemClick, OnRefreshListener {
 
     private CommunityDetailPresenter presenter;
     private ArrayList<DiscussionList.Post> posts;
@@ -48,15 +48,15 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     private CommunityPopupWindow communityPopupWindow;
     private String block;
     private String sort = "updated";//"updated","created","comment-count"
-    private String[] sorts = {"updated","created","comment-count"};
+    private String[] sorts = {"updated", "created", "comment-count"};
     private String type = "all";
     private int start = 0;
     private int limit = 20;
     private String distillate = "";
-    private String[] distillates = {"","true"};
+    private String[] distillates = {"", "true"};
     private List<String> itemsLeft;
     private List<String> itemsRight;
-    public int leftItem,rightItem;
+    public int leftItem, rightItem;
     private boolean isDataClear = false;
     private CommunityRecyclerAdapter.TopViewHolder topViewHolder;
     private CommunityRecyclerAdapter.BottomViewHolder bottomViewHolder;
@@ -91,11 +91,11 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();
-        SharedPreferenceUtil.removeKey(this,Constants.SP_COMM_LEFT);
-        SharedPreferenceUtil.removeKey(this,Constants.SP_COMM_RIGHT);
+        SharedPreferenceUtil.removeKey(this, Constants.SP_COMM_LEFT);
+        SharedPreferenceUtil.removeKey(this, Constants.SP_COMM_RIGHT);
     }
 
-    private void initView(){
+    private void initView() {
         recyclerView = findViewById(R.id.community_recycler);
         toolbar = findViewById(R.id.toolbar);
         topLeftLayout = findViewById(R.id.community_top_left);
@@ -106,12 +106,12 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
         topRightImage = findViewById(R.id.community_top_right_image);
     }
 
-    private void initData(){
+    private void initData() {
         posts = new ArrayList<>();
         block = getIntent().getStringExtra("block");
-        if (block.equals("ramble")){
+        if (block.equals("ramble")) {
             toolbar.setTitle("综合讨论区");
-        }else {
+        } else {
             toolbar.setTitle("原创区");
         }
         toolbar.setTitleTextColor(Color.WHITE);
@@ -120,11 +120,11 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         presenter = new CommunityDetailPresenter();
         presenter.attachView(this);
-        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
-        adapter = new CommunityRecyclerAdapter(posts,this,recyclerView);
+        presenter.requestDiscuss(block, "all", sort, type, start, limit, distillate);
+        adapter = new CommunityRecyclerAdapter(posts, this, recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
         adapter.setOnRefreshListener(this);
         itemsLeft = Arrays.asList(getResources().getStringArray(R.array.str_arr_community_left));
@@ -132,7 +132,7 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
         refreshUI();
     }
 
-    private void addListener(){
+    private void addListener() {
         topLeftLayout.setOnClickListener(this);
         topRightLayout.setOnClickListener(this);
     }
@@ -140,7 +140,7 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     @Override
     public void showSucceed(DiscussionList discussionList) {
         abortAnimation();
-        if(isDataClear){
+        if (isDataClear) {
             posts.clear();
         }
         posts.addAll(discussionList.getPosts());
@@ -148,43 +148,33 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     }
 
     @Override
-    public void showSucceed() {
-
-    }
-
-    @Override
     public void showError() {
         abortAnimation();
     }
 
-    private void abortAnimation(){
-        linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager();
+    private void abortAnimation() {
+        linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-        if (isDataClear && firstVisibleItem == 0){
+        if (isDataClear && firstVisibleItem == 0) {
             topViewHolder = (CommunityRecyclerAdapter.TopViewHolder)
                     recyclerView.getChildViewHolder(recyclerView.getChildAt(0));
             topViewHolder.abortAnimation();
-        }else if(!isDataClear && firstVisibleItem == adapter.getItemCount()-1){
-            bottomViewHolder = (CommunityRecyclerAdapter.BottomViewHolder)recyclerView.getChildViewHolder
-                    (recyclerView.getChildAt(recyclerView.getChildCount()-1));
+        } else if (!isDataClear && firstVisibleItem == adapter.getItemCount() - 1) {
+            bottomViewHolder = (CommunityRecyclerAdapter.BottomViewHolder) recyclerView.getChildViewHolder
+                    (recyclerView.getChildAt(recyclerView.getChildCount() - 1));
             bottomViewHolder.abortAnimation();
         }
     }
 
     @Override
-    public void showComplete() {
-
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.community_menu,menu);
+        getMenuInflater().inflate(R.menu.community_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
@@ -196,12 +186,12 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
     public void finish() {
         setResult(RESULT_OK);
         super.finish();
-        overridePendingTransition(0,R.anim.window_exit_anim);
+        overridePendingTransition(0, R.anim.window_exit_anim);
     }
 
-    public void refreshUI(){
-        leftItem = SharedPreferenceUtil.getInt(this, Constants.SP_COMM_LEFT,0);
-        rightItem = SharedPreferenceUtil.getInt(this,Constants.SP_COMM_RIGHT,0);
+    public void refreshUI() {
+        leftItem = SharedPreferenceUtil.getInt(this, Constants.SP_COMM_LEFT, 0);
+        rightItem = SharedPreferenceUtil.getInt(this, Constants.SP_COMM_RIGHT, 0);
         topLeftText.setText(itemsLeft.get(leftItem));
         topRightText.setText(itemsRight.get(rightItem));
         topLeftImage.setImageResource(R.drawable.community_top_indicator_down);
@@ -210,50 +200,50 @@ public class CommunityDetailActivity extends AppCompatActivity implements Commun
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.community_top_left:
-                communityPopupWindow = new CommunityPopupWindow(this,itemsLeft,true);
-                communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP,0,0);
+                communityPopupWindow = new CommunityPopupWindow(this, itemsLeft, true);
+                communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
                 communityPopupWindow.setOnPopWindowItemClick(CommunityDetailActivity.this);
                 topLeftImage.setImageResource(R.drawable.community_top_indicator_up);
                 break;
             case R.id.community_top_right:
-                communityPopupWindow = new CommunityPopupWindow(this,itemsRight,false);
-                communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP,0,0);
+                communityPopupWindow = new CommunityPopupWindow(this, itemsRight, false);
+                communityPopupWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
                 topRightImage.setImageResource(R.drawable.community_top_indicator_up);
                 communityPopupWindow.setOnPopWindowItemClick(CommunityDetailActivity.this);
                 break;
         }
     }
 
-    private void requestData(boolean isLeft,int item){
+    private void requestData(boolean isLeft, int item) {
         isDataClear = true;
         start = 0;
-        if (isLeft){
+        if (isLeft) {
             distillate = distillates[item];
-        }else {
+        } else {
             sort = sorts[item];
         }
-        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
+        presenter.requestDiscuss(block, "all", sort, type, start, limit, distillate);
     }
 
 
     @Override
     public void onItemClick(boolean isLeft, int item) {
-        requestData(isLeft,item);
+        requestData(isLeft, item);
     }
 
     @Override
     public void onRefresh() {
         isDataClear = true;
         start = 0;
-        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
+        presenter.requestDiscuss(block, "all", sort, type, start, limit, distillate);
     }
 
     @Override
     public void onLoadMore() {
         isDataClear = false;
         start += 20;
-        presenter.requestDiscuss(block,"all",sort,type,start,limit,distillate);
+        presenter.requestDiscuss(block, "all", sort, type, start, limit, distillate);
     }
 }

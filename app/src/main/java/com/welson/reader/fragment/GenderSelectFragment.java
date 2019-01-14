@@ -23,7 +23,7 @@ import com.welson.reader.activity.MainActivity;
 import com.welson.reader.constant.Constants;
 import com.welson.reader.util.SharedPreferenceUtil;
 
-public class GenderSelectFragment extends DialogFragment implements View.OnClickListener{
+public class GenderSelectFragment extends DialogFragment implements View.OnClickListener {
 
     private static final String TAG = "GenderSelectFragment";
     private View view;
@@ -35,7 +35,8 @@ public class GenderSelectFragment extends DialogFragment implements View.OnClick
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         getDialog().getWindow().setWindowAnimations(R.style.GenderAnim);
         view = inflater.inflate(R.layout.fragment_gender_select, container, false);
         return view;
@@ -51,13 +52,13 @@ public class GenderSelectFragment extends DialogFragment implements View.OnClick
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        Log.d(TAG,"dismiss");
-        SharedPreferenceUtil.putBoolean(getContext(), Constants.SP_IS_SELECT_GENDER,true);
-        SharedPreferenceUtil.putBoolean(getContext(), Constants.SP_GENDER_IS_MALE,isMale);
+        Log.d(TAG, "dismiss");
+        SharedPreferenceUtil.putBoolean(getContext(), Constants.SP_IS_SELECT_GENDER, true);
+        SharedPreferenceUtil.putBoolean(getContext(), Constants.SP_GENDER_IS_MALE, isMale);
         activity.firstLoadData(isMale);
     }
 
-    private void initView(){
+    private void initView() {
         genderClose = view.findViewById(R.id.gender_close_image);
         maleBtn = view.findViewById(R.id.gender_male_button);
         femaleBtn = view.findViewById(R.id.gender_female_button);
@@ -66,23 +67,23 @@ public class GenderSelectFragment extends DialogFragment implements View.OnClick
         femaleBtn.setOnClickListener(this);
     }
 
-    private void init(){
+    private void init() {
         Window window = getDialog().getWindow();
         window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         window.setDimAmount(0.0f);
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         WindowManager.LayoutParams lp = window.getAttributes();
-        lp.gravity = Gravity.START|Gravity.END;
+        lp.gravity = Gravity.START | Gravity.END;
         lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
         getDialog().getWindow().setAttributes(lp);
-        activity = (MainActivity)getContext();
+        activity = (MainActivity) getContext();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.gender_close_image:
                 getDialog().dismiss();
                 break;

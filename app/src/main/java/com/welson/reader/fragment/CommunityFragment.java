@@ -10,7 +10,7 @@ import com.welson.reader.activity.BookReviewActivity;
 import com.welson.reader.activity.CommunityDetailActivity;
 import com.welson.reader.activity.MainActivity;
 
-public class CommunityFragment extends BaseFragment implements View.OnClickListener{
+public class CommunityFragment extends BaseFragment implements View.OnClickListener {
 
     private RelativeLayout discussItem;
     private RelativeLayout commentItem;
@@ -47,12 +47,12 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.community_discuss_item:
                 Intent intent = new Intent(getContext(), CommunityDetailActivity.class);
-                intent.putExtra("block","ramble");
-                startActivityForResult(intent,REQUEST_CODE);
-                getActivity().overridePendingTransition(R.anim.window_enter_anim,0);
+                intent.putExtra("block", "ramble");
+                startActivityForResult(intent, REQUEST_CODE);
+                getActivity().overridePendingTransition(R.anim.window_enter_anim, 0);
                 break;
             case R.id.community_comment_item:
                 Intent intent2 = new Intent(getContext(), BookReviewActivity.class);
@@ -63,24 +63,25 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.community_original_item:
                 Intent intent4 = new Intent(getContext(), CommunityDetailActivity.class);
-                intent4.putExtra("block","original");
-                startActivityForResult(intent4,REQUEST_CODE);
-                getActivity().overridePendingTransition(R.anim.window_enter_anim,0);
+                intent4.putExtra("block", "original");
+                startActivityForResult(intent4, REQUEST_CODE);
+                getActivity().overridePendingTransition(R.anim.window_enter_anim, 0);
                 break;
         }
     }
 
     /**
      * 这里的onActivityResult只能接收从fragment直接start的activity
+     *
      * @param requestCode 1
-     * @param resultCode RESULT_OK
-     * @param data intent
+     * @param resultCode  RESULT_OK
+     * @param data        intent
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            ((MainActivity)getActivity()).setCurrentPage(1);
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            ((MainActivity) getActivity()).setCurrentPage(1);
         }
     }
 }

@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public class RankDetailContract {
 
-    public interface Presenter extends BasePresenter{
+    public interface Presenter extends BasePresenter {
         void requestRankData(String id);
     }
 
-    public interface View extends BaseView{
+    public interface View extends BaseView {
         void showSucceed(Rankings rankings);
     }
 }

@@ -7,15 +7,15 @@ public class AbstractPresenter {
 
     private static CompositeDisposable compositeDisposable;
 
-    protected void addDisposable(Disposable disposable){
-        if (compositeDisposable == null){
+    protected void addDisposable(Disposable disposable) {
+        if (compositeDisposable == null) {
             compositeDisposable = new CompositeDisposable();
         }
         compositeDisposable.add(disposable);
     }
 
-    public static void removeAllDisposable(){
-        if (!compositeDisposable.isDisposed()){
+    public static void removeAllDisposable() {
+        if (!compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
         }
     }

@@ -12,7 +12,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class CommunityDetailPresenter extends AbstractPresenter implements CommunityDetailContract.Presenter{
+public class CommunityDetailPresenter extends AbstractPresenter implements CommunityDetailContract.Presenter {
 
     private CommunityDetailContract.View view;
 
@@ -35,7 +35,7 @@ public class CommunityDetailPresenter extends AbstractPresenter implements Commu
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("dingyl","onError");
+                        Log.d("dingyl", "onError");
                         e.printStackTrace();
                     }
 
@@ -53,7 +53,7 @@ public class CommunityDetailPresenter extends AbstractPresenter implements Commu
 
     @Override
     public void detachView() {
-        if (view != null){
+        if (view != null) {
             view = null;
         }
     }

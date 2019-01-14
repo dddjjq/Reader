@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("currentPage",viewPager.getCurrentItem());
+        outState.putInt("currentPage", viewPager.getCurrentItem());
     }
 
     @Override
@@ -93,20 +93,20 @@ public class MainActivity extends AppCompatActivity {
         stopDownloadService();
     }
 
-    private void initView(){
+    private void initView() {
         mainToolbar = findViewById(R.id.main_toolbar);
         indicator = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.main_viewpager);
         initTab();
     }
 
-    private void initTab(){
+    private void initTab() {
         int mainColor = getResources().getColor(R.color.colorMain);
-        List<String> titles =  Arrays.asList(getResources().getStringArray(R.array.main_tab_text_arr)) ;
+        List<String> titles = Arrays.asList(getResources().getStringArray(R.array.main_tab_text_arr));
         indicator.setTabArray(titles);
     }
 
-    private void initFragment(){
+    private void initFragment() {
         fragments = new ArrayList<>();
         bookShelfFragment = new BookShelfFragment();
         communityFragment = new CommunityFragment();
@@ -115,26 +115,27 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(bookShelfFragment);
         fragments.add(communityFragment);
         fragments.add(discoverFragment);
-        viewpagerAdapter = new MainViewpagerAdapter(getSupportFragmentManager(),fragments);
+        viewpagerAdapter = new MainViewpagerAdapter(getSupportFragmentManager(), fragments);
         viewPager.setAdapter(viewpagerAdapter);
-        indicator.setViewPager(viewPager,0);
+        indicator.setViewPager(viewPager, 0);
 
     }
 
-    private void initData(){
+    private void initData() {
         handler = new MainHandler(this);
-        isSelectGender = SharedPreferenceUtil.getBoolean(this, Constants.SP_IS_SELECT_GENDER,false);
-        if (!isSelectGender){
-            handler.sendEmptyMessageDelayed(SHOW_GENDER_SELECT,500);
+        isSelectGender = SharedPreferenceUtil.getBoolean(this, Constants.SP_IS_SELECT_GENDER, false);
+        if (!isSelectGender) {
+            handler.sendEmptyMessageDelayed(SHOW_GENDER_SELECT, 500);
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu,menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    static class MainHandler extends Handler{
+    static class MainHandler extends Handler {
         WeakReference<MainActivity> reference;
         MainActivity activity;
 
@@ -145,37 +146,37 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case SHOW_GENDER_SELECT:
-                    activity.genderSelectFragment.show(activity.getSupportFragmentManager(),"gender");
+                    activity.genderSelectFragment.show(activity.getSupportFragmentManager(), "gender");
                     break;
             }
         }
     }
 
-    public void setCurrentPage(int position){
+    public void setCurrentPage(int position) {
         currentPage = position;
     }
 
-    public void scrollToPage(int position){
-        if (position > 2){
+    public void scrollToPage(int position) {
+        if (position > 2) {
             position = 2;
-        }else if (position < 0){
+        } else if (position < 0) {
             position = 0;
         }
         viewPager.setCurrentItem(position);
     }
 
-    public void firstLoadData(boolean isMale){
+    public void firstLoadData(boolean isMale) {
         bookShelfFragment.firstLoadData(isMale);
     }
 
-    private void startDownloadService(){
+    private void startDownloadService() {
         Intent intent = new Intent(this, DownloadService.class);
         startService(intent);
     }
 
-    private void stopDownloadService(){
+    private void stopDownloadService() {
         Intent intent = new Intent(this, DownloadService.class);
         stopService(intent);
     }

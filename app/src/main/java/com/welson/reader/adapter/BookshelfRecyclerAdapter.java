@@ -27,7 +27,7 @@ public class BookshelfRecyclerAdapter extends RecyclerView.Adapter<BookshelfRecy
     private Context context;
     private ArrayList<BookEntity> books;
 
-    public BookshelfRecyclerAdapter(Context context, ArrayList<BookEntity> books){
+    public BookshelfRecyclerAdapter(Context context, ArrayList<BookEntity> books) {
         this.context = context;
         this.books = books;
     }
@@ -35,23 +35,23 @@ public class BookshelfRecyclerAdapter extends RecyclerView.Adapter<BookshelfRecy
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.bookshelf_item_layout,viewGroup,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.bookshelf_item_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final int position = i;
-        GlideUtil.loadImage(context, Constants.IMG_BASE_URL + books.get(i).getCover(),viewHolder.bookshelfImage);
+        GlideUtil.loadImage(context, Constants.IMG_BASE_URL + books.get(i).getCover(), viewHolder.bookshelfImage);
         viewHolder.bookshelfTitle.setText(books.get(i).getTitle());
         viewHolder.bookshelfChapter.setText(books.get(i).getLastChapter());
         viewHolder.bookshelfLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ReadActivity.class);
-                intent.putExtra("bookId",books.get(position).get_id());
+                intent.putExtra("bookId", books.get(position).get_id());
                 context.startActivity(intent);
-                ((Activity)context).overridePendingTransition(R.anim.window_enter_anim,0);
+                ((Activity) context).overridePendingTransition(R.anim.window_enter_anim, 0);
             }
         });
     }
@@ -61,7 +61,7 @@ public class BookshelfRecyclerAdapter extends RecyclerView.Adapter<BookshelfRecy
         return books.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         private RelativeLayout bookshelfLayout;
         private ImageView bookshelfImage;
         private TextView bookshelfTitle;

@@ -25,7 +25,7 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
     private ArrayList<Rankings.Book> books;
     private Context context;
 
-    public RankDetailRecyclerAdapter(Context context, ArrayList<Rankings.Book> books){
+    public RankDetailRecyclerAdapter(Context context, ArrayList<Rankings.Book> books) {
         this.context = context;
         this.books = books;
     }
@@ -33,7 +33,7 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.rank_detail_item_layout,viewGroup,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.rank_detail_item_layout, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -43,13 +43,13 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
         viewHolder.rankDetailTitle.setText(books.get(i).getTitle());
         viewHolder.rankDetailAuthor.setText(books.get(i).getAuthor() + context.getString(R.string.str_rank_detail_author));
         viewHolder.rankDetailChapter.setText(getTrueString(books.get(i).getShortIntro()).trim());
-        viewHolder.rankDetailReader.setText(getSaveString(books.get(i).getLatelyFollower(),books.get(i).getRetentionRatio()));
-        GlideUtil.loadImage(context, Constants.IMG_BASE_URL+books.get(i).getCover(),viewHolder.rankDetailImage);
+        viewHolder.rankDetailReader.setText(getSaveString(books.get(i).getLatelyFollower(), books.get(i).getRetentionRatio()));
+        GlideUtil.loadImage(context, Constants.IMG_BASE_URL + books.get(i).getCover(), viewHolder.rankDetailImage);
         viewHolder.rankDetailItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,BookDetailActivity.class);
-                intent.putExtra("bookId",books.get(position).get_id());
+                Intent intent = new Intent(context, BookDetailActivity.class);
+                intent.putExtra("bookId", books.get(position).get_id());
                 context.startActivity(intent);
             }
         });
@@ -60,17 +60,17 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
         return books.size();
     }
 
-    private String getSaveString(int chase,String save){
+    private String getSaveString(int chase, String save) {
         return chase + context.getString(R.string.str_rank_detail_chase)
                 + context.getString(R.string.str_rank_detail_author)
                 + save + context.getString(R.string.str_rank_detail_save);
     }
 
-    private String getTrueString(String save){
-        return save.replaceAll("\n","");
+    private String getTrueString(String save) {
+        return save.replaceAll("\n", "");
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout rankDetailItemLayout;
         private ImageView rankDetailImage;
@@ -79,8 +79,7 @@ public class RankDetailRecyclerAdapter extends RecyclerView.Adapter<RankDetailRe
         private TextView rankDetailChapter;
         private TextView rankDetailReader;
 
-        private
-        ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
             rankDetailItemLayout = itemView.findViewById(R.id.rank_detail_item);
             rankDetailImage = itemView.findViewById(R.id.rank_detail_image);

@@ -45,7 +45,7 @@ public class RankDetailActivity extends AppCompatActivity {
         initData();
     }
 
-    private void initToolBar(){
+    private void initToolBar() {
         title = getIntent().getStringExtra("title");
         id = getIntent().getStringExtra("id");
         monthRank = getIntent().getStringExtra("monthRank");
@@ -58,14 +58,14 @@ public class RankDetailActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void initView(){
+    private void initView() {
         indicator = findViewById(R.id.indicator);
         viewPager = findViewById(R.id.view_pager);
         List<String> arr = Arrays.asList(getResources().getStringArray(R.array.array_rank_detail));
         indicator.setTabArray(arr);
     }
 
-    private void initData(){
+    private void initData() {
         fragments = new ArrayList<>();
         dayRankFragment = new RankDetailFragment();
         monthRankFragment = new RankDetailFragment();
@@ -74,21 +74,21 @@ public class RankDetailActivity extends AppCompatActivity {
         fragments.add(monthRankFragment);
         fragments.add(totalRankFragment);
         Bundle bundleDay = new Bundle();
-        bundleDay.putString("id",id);
+        bundleDay.putString("id", id);
         dayRankFragment.setArguments(bundleDay);
         Bundle bundleMonth = new Bundle();
-        bundleMonth.putString("id",monthRank);
+        bundleMonth.putString("id", monthRank);
         monthRankFragment.setArguments(bundleMonth);
         Bundle bundleTotal = new Bundle();
-        bundleTotal.putString("id",totalRank);
+        bundleTotal.putString("id", totalRank);
         totalRankFragment.setArguments(bundleTotal);
-        viewPager.setAdapter(new MainViewpagerAdapter(getSupportFragmentManager(),fragments));
-        indicator.setViewPager(viewPager,0);
+        viewPager.setAdapter(new MainViewpagerAdapter(getSupportFragmentManager(), fragments));
+        indicator.setViewPager(viewPager, 0);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;

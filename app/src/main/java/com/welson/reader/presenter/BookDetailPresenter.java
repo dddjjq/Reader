@@ -19,16 +19,16 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function3;
 import io.reactivex.schedulers.Schedulers;
 
-public class BookDetailPresenter extends AbstractPresenter implements BookDetailContract.Presenter{
+public class BookDetailPresenter extends AbstractPresenter implements BookDetailContract.Presenter {
 
     private BookDetailContract.View view;
 
     @Override
     public void requestBookData(String id) {
         if (view == null) return;
-        Observable.zip(RetrofitHelper.getInstance().getBookDetail(id),RetrofitHelper.getInstance().getHotReview(id),
-                RetrofitHelper.getInstance().getRecommendBookList(id,String.valueOf(3))
-                ,new Function3<BookDetail, HotReview, RecommendBookList, BookDetailEntity>(){
+        Observable.zip(RetrofitHelper.getInstance().getBookDetail(id), RetrofitHelper.getInstance().getHotReview(id),
+                RetrofitHelper.getInstance().getRecommendBookList(id, String.valueOf(3))
+                , new Function3<BookDetail, HotReview, RecommendBookList, BookDetailEntity>() {
 
                     @Override
                     public BookDetailEntity apply(BookDetail bookDetail, HotReview hotReview, RecommendBookList recommendBookList) throws Exception {
@@ -97,7 +97,7 @@ public class BookDetailPresenter extends AbstractPresenter implements BookDetail
 
     @Override
     public void detachView() {
-        if(view != null){
+        if (view != null) {
             view = null;
         }
     }

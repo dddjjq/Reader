@@ -32,7 +32,7 @@ import java.util.Arrays;
 
 import io.reactivex.annotations.NonNull;
 
-public class BookShelfFragment extends BaseFragment implements MainContract.View,View.OnClickListener{
+public class BookShelfFragment extends BaseFragment implements MainContract.View, View.OnClickListener {
 
     private static final String TAG = "BookShelfFragment";
     private BookShelfPresenter presenter;
@@ -65,22 +65,22 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
             eventBus.register(this);
         presenter = new BookShelfPresenter();
         presenter.attachView(this);
-        activity = (MainActivity)getActivity();
+        activity = (MainActivity) getActivity();
         books = new ArrayList<>();
-        adapter = new BookshelfRecyclerAdapter(getContext(),books);
+        adapter = new BookshelfRecyclerAdapter(getContext(), books);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         bookshelfRecycler.setLayoutManager(manager);
         bookshelfRecycler.setAdapter(adapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext()
-                ,DividerItemDecoration.VERTICAL);
+                , DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.bookshelf_item_divider));
         bookshelfRecycler.addItemDecoration(dividerItemDecoration);
         if (CollectManager.getRecommendCollectList() != null &&
-                CollectManager.getRecommendCollectList().size() != 0){
+                CollectManager.getRecommendCollectList().size() != 0) {
             books.clear();
             books.addAll(CollectManager.getRecommendCollectList());
-            showSucceed(CollectManager.getRecommendCollectList(),false);
-            Log.d(TAG,"getBooks().size() != 0");
+            showSucceed(CollectManager.getRecommendCollectList(), false);
+            Log.d(TAG, "getBooks().size() != 0");
         }
         invalidate();
     }
@@ -98,34 +98,29 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
             eventBus.unregister(this);
     }
 
-    public void firstLoadData(boolean isMale){
-        if (isMale){
+    public void firstLoadData(boolean isMale) {
+        if (isMale) {
             presenter.requestRecommendData(MALE);
-        }else {
+        } else {
             presenter.requestRecommendData(FEMALE);
         }
     }
 
     @Override
-    public void showSucceed(ArrayList<BookEntity> entities,boolean isDownload) {
+    public void showSucceed(ArrayList<BookEntity> entities, boolean isDownload) {
         books.clear();
         books.addAll(entities);
         adapter.notifyDataSetChanged();
         invalidate();
         //if (isDownload){
-            DownloadEvent event = new DownloadEvent();
-            Integer i[] = {1,2,3,4};
-            for (BookEntity entity : entities){
-                event.setBookId(entity.get_id());
-                event.setChapters(Arrays.asList(i));
-                eventBus.post(event);
-            }
+        DownloadEvent event = new DownloadEvent();
+        Integer i[] = {1, 2, 3, 4};
+        for (BookEntity entity : entities) {
+            event.setBookId(entity.get_id());
+            event.setChapters(Arrays.asList(i));
+            eventBus.post(event);
+        }
         //}
-    }
-
-    @Override
-    public void showSucceed() {
-
     }
 
     @Override
@@ -133,22 +128,17 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
 
     }
 
-    @Override
-    public void showComplete() {
-
-    }
-
-    public void invalidate(){
-        if (books.size() == 0){
+    public void invalidate() {
+        if (books.size() == 0) {
             bookshelfEmptyView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             bookshelfEmptyView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.add_button:
                 activity.scrollToPage(2);
                 break;
@@ -156,7 +146,7 @@ public class BookShelfFragment extends BaseFragment implements MainContract.View
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(DownloadEvent event){
+    public void onEvent(DownloadEvent event) {
 
     }
 }

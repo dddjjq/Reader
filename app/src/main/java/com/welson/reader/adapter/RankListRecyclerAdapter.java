@@ -32,7 +32,7 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
     private ArrayList<RankingList.Rank> ranksMale;
     private ArrayList<RankingList.Rank> ranksFemale;
 
-    public RankListRecyclerAdapter(Context context, RankingList rankingList){
+    public RankListRecyclerAdapter(Context context, RankingList rankingList) {
         this.context = context;
         this.rankingList = rankingList;
         init();
@@ -42,17 +42,17 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view;
-        switch (viewType){
+        switch (viewType) {
             case TYPE_GENDER:
-                view = LayoutInflater.from(context).inflate(R.layout.rank_gender_item,viewGroup,false);
+                view = LayoutInflater.from(context).inflate(R.layout.rank_gender_item, viewGroup, false);
                 return new GenderViewHolder(view);
             case TYPE_MALE:
             case TYPE_FEMALE:
-                view = LayoutInflater.from(context).inflate(R.layout.rank_list_item_layout,viewGroup,false);
+                view = LayoutInflater.from(context).inflate(R.layout.rank_list_item_layout, viewGroup, false);
                 return new NormalViewHolder(view);
             case TYPE_COLLAPSE_MALE:
             case TYPE_COLLAPSE_FEMALE:
-                view = LayoutInflater.from(context).inflate(R.layout.rank_list_collapse_item,viewGroup,false);
+                view = LayoutInflater.from(context).inflate(R.layout.rank_list_collapse_item, viewGroup, false);
                 return new CollapseViewHolder(view);
         }
         return null;
@@ -62,17 +62,17 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
         final int malePosition = getRealMalePosition(position);
         final int femalePosition = getRealFemalePosition(position);
-        switch (getItemViewType(position)){
+        switch (getItemViewType(position)) {
             case TYPE_GENDER:
-                GenderViewHolder genderViewHolder = (GenderViewHolder)viewHolder;
-                if (position == 0){
+                GenderViewHolder genderViewHolder = (GenderViewHolder) viewHolder;
+                if (position == 0) {
                     genderViewHolder.genderText.setText(context.getResources().getText(R.string.str_rank_male));
-                }else {
+                } else {
                     genderViewHolder.genderText.setText(context.getResources().getText(R.string.str_rank_female));
                 }
                 break;
             case TYPE_MALE:
-                NormalViewHolder normalViewHolder = (NormalViewHolder)viewHolder;
+                NormalViewHolder normalViewHolder = (NormalViewHolder) viewHolder;
                 normalViewHolder.rankLayout.setItemString(rankingList.getMale()
                         .get(malePosition).getTitle());
                 normalViewHolder.rankLayout.setImage(rankingList.getMale()
@@ -81,20 +81,20 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, RankDetailActivity.class);
-                        intent.putExtra("title",rankingList.getMale()
+                        intent.putExtra("title", rankingList.getMale()
                                 .get(malePosition).getTitle());
-                        intent.putExtra("id",rankingList.getMale()
+                        intent.putExtra("id", rankingList.getMale()
                                 .get(malePosition).get_id());
-                        intent.putExtra("monthRank",rankingList.getMale()
+                        intent.putExtra("monthRank", rankingList.getMale()
                                 .get(malePosition).getMonthRank());
-                        intent.putExtra("totalRank",rankingList.getMale()
+                        intent.putExtra("totalRank", rankingList.getMale()
                                 .get(malePosition).getTotalRank());
                         context.startActivity(intent);
                     }
                 });
                 break;
             case TYPE_FEMALE:
-                NormalViewHolder normalViewHolder1 = (NormalViewHolder)viewHolder;
+                NormalViewHolder normalViewHolder1 = (NormalViewHolder) viewHolder;
                 normalViewHolder1.rankLayout.setItemString(rankingList.getFemale()
                         .get(femalePosition).getTitle());
                 normalViewHolder1.rankLayout.setImage(rankingList.getFemale()
@@ -103,44 +103,44 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, RankDetailActivity.class);
-                        intent.putExtra("title",rankingList.getFemale()
+                        intent.putExtra("title", rankingList.getFemale()
                                 .get(femalePosition).getTitle());
-                        intent.putExtra("id",rankingList.getMale()
+                        intent.putExtra("id", rankingList.getMale()
                                 .get(femalePosition).get_id());
-                        intent.putExtra("monthRank",rankingList.getMale()
+                        intent.putExtra("monthRank", rankingList.getMale()
                                 .get(femalePosition).getMonthRank());
-                        intent.putExtra("totalRank",rankingList.getMale()
+                        intent.putExtra("totalRank", rankingList.getMale()
                                 .get(femalePosition).getTotalRank());
                         context.startActivity(intent);
                     }
                 });
                 break;
             case TYPE_COLLAPSE_MALE:
-                Log.d("dinyl","position");
-                CollapseViewHolder collapseViewHolder1 = (CollapseViewHolder)viewHolder;
+                Log.d("dinyl", "position");
+                CollapseViewHolder collapseViewHolder1 = (CollapseViewHolder) viewHolder;
                 collapseViewHolder1.collapseLayout.setRanks(ranksMale);
                 break;
             case TYPE_COLLAPSE_FEMALE:
-                CollapseViewHolder collapseViewHolder2 = (CollapseViewHolder)viewHolder;
+                CollapseViewHolder collapseViewHolder2 = (CollapseViewHolder) viewHolder;
                 collapseViewHolder2.collapseLayout.setRanks(ranksFemale);
                 break;
         }
     }
 
-    private void init(){
+    private void init() {
         ranksMale = new ArrayList<>();
         ranksFemale = new ArrayList<>();
-        for (RankingList.Rank r : rankingList.getMale()){
-            if (!r.isCollapse()){
+        for (RankingList.Rank r : rankingList.getMale()) {
+            if (!r.isCollapse()) {
                 males++;
-            }else {
+            } else {
                 ranksMale.add(r);
             }
         }
-        for (RankingList.Rank r : rankingList.getFemale()){
-            if (!r.isCollapse()){
+        for (RankingList.Rank r : rankingList.getFemale()) {
+            if (!r.isCollapse()) {
                 females++;
-            }else {
+            } else {
                 ranksFemale.add(r);
             }
         }
@@ -155,28 +155,28 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || position == (males+2)){
+        if (position == 0 || position == (males + 2)) {
             return TYPE_GENDER;
-        }else if (position == (males + 1)){
+        } else if (position == (males + 1)) {
             return TYPE_COLLAPSE_MALE;
-        }else if (position == (males + females + 3)){
+        } else if (position == (males + females + 3)) {
             return TYPE_COLLAPSE_FEMALE;
-        }else if (position > 0 && position < (males + 1)){
+        } else if (position > 0 && position < (males + 1)) {
             return TYPE_MALE;
-        }else{
+        } else {
             return TYPE_FEMALE;
         }
     }
 
-    private int getRealMalePosition(int position){
-        return position -1;
+    private int getRealMalePosition(int position) {
+        return position - 1;
     }
 
-    private int getRealFemalePosition(int position){
+    private int getRealFemalePosition(int position) {
         return position - 3 - males;
     }
 
-    class NormalViewHolder extends RecyclerView.ViewHolder{
+    class NormalViewHolder extends RecyclerView.ViewHolder {
 
         private RankLayout rankLayout;
 
@@ -186,7 +186,7 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class GenderViewHolder extends RecyclerView.ViewHolder{
+    class GenderViewHolder extends RecyclerView.ViewHolder {
 
         private TextView genderText;
 
@@ -196,7 +196,7 @@ public class RankListRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class CollapseViewHolder extends RecyclerView.ViewHolder{
+    class CollapseViewHolder extends RecyclerView.ViewHolder {
 
         private CollapseLayout collapseLayout;
 

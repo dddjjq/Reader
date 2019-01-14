@@ -15,7 +15,7 @@ import com.welson.reader.presenter.RankPresenter;
 
 import java.util.ArrayList;
 
-public class RankDetailFragment extends BaseFragment implements RankDetailContract.View{
+public class RankDetailFragment extends BaseFragment implements RankDetailContract.View {
 
     private static final String TAG = "RankDetailFragment";
     private RecyclerView rankRecycler;
@@ -41,14 +41,14 @@ public class RankDetailFragment extends BaseFragment implements RankDetailContra
 
     @Override
     public void initData() {
-        Log.d(TAG,"initData");
+        Log.d(TAG, "initData");
         books = new ArrayList<>();
-        adapter = new RankDetailRecyclerAdapter(getContext(),books);
+        adapter = new RankDetailRecyclerAdapter(getContext(), books);
         rankRecycler.setAdapter(adapter);
         String id = getArguments().getString("id");
-        if (id != null && !id.equals("")){
+        if (id != null && !id.equals("")) {
             presenter.requestRankData(id);
-        }else {
+        } else {
             rankRecycler.setVisibility(View.GONE);
             noContentView.setVisibility(View.VISIBLE);
         }
@@ -73,17 +73,7 @@ public class RankDetailFragment extends BaseFragment implements RankDetailContra
     }
 
     @Override
-    public void showSucceed() {
-
-    }
-
-    @Override
     public void showError() {
-
-    }
-
-    @Override
-    public void showComplete() {
 
     }
 }

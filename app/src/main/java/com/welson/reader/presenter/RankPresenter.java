@@ -12,11 +12,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class RankPresenter extends AbstractPresenter implements RankDetailContract.Presenter{
+public class RankPresenter extends AbstractPresenter implements RankDetailContract.Presenter {
 
     private RankDetailContract.View view;
 
-    public RankPresenter(){
+    public RankPresenter() {
 
     }
 
@@ -57,7 +57,7 @@ public class RankPresenter extends AbstractPresenter implements RankDetailContra
 
     @Override
     public void detachView() {
-        if(view != null){
+        if (view != null) {
             view = null;
         }
     }

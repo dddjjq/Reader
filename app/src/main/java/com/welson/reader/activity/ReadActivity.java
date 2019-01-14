@@ -40,31 +40,31 @@ public class ReadActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,R.anim.window_exit_anim);
+        overridePendingTransition(0, R.anim.window_exit_anim);
     }
 
-    private void initView(){
+    private void initView() {
         readView = findViewById(R.id.read_view);
         factory = new ReadFactory(this);
         readView.setPageFactory(factory);
     }
 
-    private void initData(){
+    private void initData() {
         bookId = getIntent().getStringExtra("bookId");
-        currentChapter = getIntent().getIntExtra("currentChapter",0);
+        currentChapter = getIntent().getIntExtra("currentChapter", 0);
     }
 
-    private void addListener(){
+    private void addListener() {
     }
 
-    private void loadCurrentPageData(){
+    private void loadCurrentPageData() {
 
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
+        if (hasFocus) {
             /*TextView textView = baseReadViews.get(0).readContentText;
             textSize = textView.getTextSize(); //字体大小
             space = textView.getLineSpacingExtra();//行间距
@@ -74,40 +74,40 @@ public class ReadActivity extends AppCompatActivity {
         }
     }
 
-    private String getCalculateText(int currentChapter,String chapterText, int begin){
+    private String getCalculateText(int currentChapter, String chapterText, int begin) {
         int end;
         boolean isChapterEnd = false;
         StringBuilder result = new StringBuilder();
         int myLineCount = lineTextCount;
-        for (int i=0;i<lineCount;i++){
+        for (int i = 0; i < lineCount; i++) {
             end = begin + myLineCount;
             String show = "";
             String chapter = "";
-            if (chapterText.length() > end){ //分页
-                show = chapterText.substring(begin,end);
-            }else {
-                show = chapterText.substring(begin,chapterText.length());
+            if (chapterText.length() > end) { //分页
+                show = chapterText.substring(begin, end);
+            } else {
+                show = chapterText.substring(begin, chapterText.length());
                 isChapterEnd = true;
             }
             //Log.d("dingyl","show : " + show);
-            if (show.contains("@")){
-                chapter = show.substring(0,show.indexOf("@"));
+            if (show.contains("@")) {
+                chapter = show.substring(0, show.indexOf("@"));
                 begin += 1;
                 result.append(chapter);
                 result.append("\n\u3000\u3000");
                 myLineCount = lineTextCount - 2;
-            }else {
+            } else {
                 chapter = show;
                 result.append(chapter);
                 result.append("\n");
                 myLineCount = lineTextCount;
             }
             begin += chapter.length();
-            if (isChapterEnd){
+            if (isChapterEnd) {
                 break;
             }
         }
-        SettingManager.getInstance().saveReadProgress(getApplicationContext(),bookId,currentChapter,begin);
+        SettingManager.getInstance().saveReadProgress(getApplicationContext(), bookId, currentChapter, begin);
         return result.toString();
     }
 }

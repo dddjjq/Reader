@@ -21,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class BookShelfPresenter extends AbstractPresenter implements MainContract.Presenter{
+public class BookShelfPresenter extends AbstractPresenter implements MainContract.Presenter {
 
     private static final String TAG = "BookShelfPresenter";
     private MainContract.View view;
@@ -30,12 +30,12 @@ public class BookShelfPresenter extends AbstractPresenter implements MainContrac
 
     @Override
     public void attachView(BaseView baseView) {
-        view = (MainContract.View)baseView;
+        view = (MainContract.View) baseView;
     }
 
     @Override
     public void detachView() {
-        if (view != null){
+        if (view != null) {
             view = null;
         }
     }
@@ -55,9 +55,9 @@ public class BookShelfPresenter extends AbstractPresenter implements MainContrac
                     @Override
                     public void onNext(Recommend mRecommend) {
                         recommend = mRecommend;
-                        if (mRecommend.isOk()){
-                            view.showSucceed(mRecommend.getBooks(),true);
-                        }else {
+                        if (mRecommend.isOk()) {
+                            view.showSucceed(mRecommend.getBooks(), true);
+                        } else {
                             view.showError();
                         }
                     }
@@ -80,7 +80,7 @@ public class BookShelfPresenter extends AbstractPresenter implements MainContrac
         @Override
         public void run() {
             ArrayList<BookEntity> bookEntities = recommend.getBooks();
-            CollectManager.addCollect("collect",bookEntities);
+            CollectManager.addCollect("collect", bookEntities);
         }
     };
 

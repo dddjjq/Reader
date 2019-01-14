@@ -31,7 +31,7 @@ import com.welson.reader.view.BookRedButton;
 
 import java.util.ArrayList;
 
-public class BookDetailActivity extends AppCompatActivity implements BookDetailContract.View,View.OnClickListener{
+public class BookDetailActivity extends AppCompatActivity implements BookDetailContract.View, View.OnClickListener {
 
     private Toolbar toolbar;
     private ScrollView scrollView;
@@ -65,7 +65,7 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
         addListener();
     }
 
-    private void initView(){
+    private void initView() {
         scrollView = findViewById(R.id.scroll_view);
         scrollView.setVisibility(View.GONE);
         bookImage = findViewById(R.id.book_detail_image);
@@ -84,7 +84,7 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
         recommendRecycler = findViewById(R.id.book_detail_recommend_recycler);
     }
 
-    private void initToolbar(){
+    private void initToolbar() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("书籍详情");
         toolbar.setTitleTextColor(Color.WHITE);
@@ -93,31 +93,31 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void initData(){
+    private void initData() {
         String id = getIntent().getStringExtra("bookId");
         presenter = new BookDetailPresenter();
         presenter.attachView(this);
         presenter.requestBookData(id);
         reviews = new ArrayList<>();
         bookLists = new ArrayList<>();
-        hotReviewRecyclerAdapter = new BookDetailHotReviewRecyclerAdapter(this,reviews);
-        recommendRecyclerAdapter = new BookDetailRecommendRecyclerAdapter(this,bookLists);
+        hotReviewRecyclerAdapter = new BookDetailHotReviewRecyclerAdapter(this, reviews);
+        recommendRecyclerAdapter = new BookDetailRecommendRecyclerAdapter(this, bookLists);
         LinearLayoutManager hotManager = new LinearLayoutManager(this);
         LinearLayoutManager recommendManager = new LinearLayoutManager(this);
         hotCommentRecycler.setLayoutManager(hotManager);
-        hotCommentRecycler.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        hotCommentRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         recommendRecycler.setLayoutManager(recommendManager);
         hotCommentRecycler.setAdapter(hotReviewRecyclerAdapter);
         recommendRecycler.setAdapter(recommendRecyclerAdapter);
     }
 
-    private void addListener(){
+    private void addListener() {
         contentSummary.setOnClickListener(this);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
@@ -138,17 +138,17 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
         HotReview hotReview = bookDetailEntity.getHotReview();
 
         RecommendBookList recommendBookList = bookDetailEntity.getRecommendBookList();
-        GlideUtil.loadImage(this, Constants.IMG_BASE_URL+bookDetail.getCover(),bookImage);
+        GlideUtil.loadImage(this, Constants.IMG_BASE_URL + bookDetail.getCover(), bookImage);
         bookTitle.setText(bookDetail.getTitle());
-        author.setText(getAuthorString(bookDetail.getAuthor(),bookDetail.getCat(),bookDetail.getWordCount()));
+        author.setText(getAuthorString(bookDetail.getAuthor(), bookDetail.getCat(), bookDetail.getWordCount()));
         publishTime.setText(TimeUtil.getDescriptionTimeFromDateString(bookDetail.getUpdated()));
         addCount.setContent(String.valueOf(bookDetail.getLatelyFollower()));
-        savePercent.setContent(bookDetail.getRetentionRatio()+"%");
-        refreshEachDay.setContent(bookDetail.getSerializeWordCount()>0?String.valueOf(bookDetail.getSerializeWordCount())
-                        :String.valueOf(0));
+        savePercent.setContent(bookDetail.getRetentionRatio() + "%");
+        refreshEachDay.setContent(bookDetail.getSerializeWordCount() > 0 ? String.valueOf(bookDetail.getSerializeWordCount())
+                : String.valueOf(0));
         contentSummary.setText(bookDetail.getLongIntro());
-        communityTitle.setText(bookDetail.getTitle()+"的社区");
-        communityCount.setText("共有" + bookDetail.getPostCount() +"个帖子");
+        communityTitle.setText(bookDetail.getTitle() + "的社区");
+        communityCount.setText("共有" + bookDetail.getPostCount() + "个帖子");
 
         reviews.clear();
         reviews.addAll(hotReview.getReviews());
@@ -160,29 +160,19 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
     }
 
     @Override
-    public void showSucceed() {
-
-    }
-
-    @Override
     public void showError() {
 
     }
 
     @Override
-    public void showComplete() {
-
-    }
-
-    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.book_detail_content:
                 int maxLines = contentSummary.getMaxLines();
-                if (maxLines == 4){
+                if (maxLines == 4) {
                     contentSummary.setMaxLines(Integer.MAX_VALUE);
                     contentSummary.setEllipsize(null);
-                }else {
+                } else {
                     contentSummary.setMaxLines(4);
                     contentSummary.setEllipsize(TextUtils.TruncateAt.END);
                 }
@@ -190,14 +180,15 @@ public class BookDetailActivity extends AppCompatActivity implements BookDetailC
         }
     }
 
-    private String getAuthorString(String author,String type,int wordCount){
+    private String getAuthorString(String author, String type, int wordCount) {
         return author + " | " + type + " | " + getWordCountString(wordCount);
     }
-    private String getWordCountString(int wordCount){
-        if (wordCount < 10000){
+
+    private String getWordCountString(int wordCount) {
+        if (wordCount < 10000) {
             return String.valueOf(wordCount);
-        }else {
-            return wordCount/10000 + "万字";
+        } else {
+            return wordCount / 10000 + "万字";
         }
     }
 }

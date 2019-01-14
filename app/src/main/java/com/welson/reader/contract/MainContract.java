@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 public class MainContract {
 
-    public interface Presenter extends BasePresenter{
+    public interface Presenter extends BasePresenter {
         void requestRecommendData(String gender);
     }
 
-    public interface View extends BaseView{
-        void showSucceed(ArrayList<BookEntity> entities,boolean isDownload);
+    public interface View extends BaseView {
+        void showSucceed(ArrayList<BookEntity> entities, boolean isDownload);
     }
 }

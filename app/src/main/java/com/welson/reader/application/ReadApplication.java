@@ -17,7 +17,7 @@ public class ReadApplication extends Application {
         init();
     }
 
-    private void init(){
+    private void init() {
         AppUtils.init(this);
         collectManager = new CollectManager(this);
     }

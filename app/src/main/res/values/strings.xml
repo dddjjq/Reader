@@ -67,4 +67,19 @@
     <string name="str_book_detail_hot_comment">热门书评</string>
     <string name="str_book_detail_more_comment">更多</string>
     <string name="str_book_detail_recommend_title">推荐书单</string>
+    <string-array name="str_arr_book_type">
+        <item>全部类型</item>
+        <item>玄幻奇幻</item>
+        <item>武侠仙侠</item>
+        <item>都市异能</item>
+        <item>历史军事</item>
+        <item>游戏竞技</item>
+        <item>科技灵异</item>
+        <item>穿越架空</item>
+        <item>豪门总裁</item>
+        <item>现代言情</item>
+        <item>古代言情</item>
+        <item>幻想小说</item>
+        <item>耽美同人</item>
+    </string-array>
 </resources>

@@ -8,7 +8,7 @@ import com.welson.reader.fragment.BaseFragment;
 
 import java.util.ArrayList;
 
-public class MainViewpagerAdapter extends FragmentPagerAdapter{
+public class MainViewpagerAdapter extends FragmentPagerAdapter {
 
     private ArrayList<BaseFragment> fragments;
 

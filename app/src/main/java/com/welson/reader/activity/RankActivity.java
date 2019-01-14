@@ -14,7 +14,7 @@ import com.welson.reader.contract.RankListContract;
 import com.welson.reader.entity.RankingList;
 import com.welson.reader.presenter.RankListPresenter;
 
-public class RankActivity extends AppCompatActivity implements RankListContract.View{
+public class RankActivity extends AppCompatActivity implements RankListContract.View {
 
     private Toolbar toolbar;
     private RecyclerView rankListRecycler;
@@ -45,7 +45,7 @@ public class RankActivity extends AppCompatActivity implements RankListContract.
         presenter.detachView();
     }
 
-    private void initToolBar(){
+    private void initToolBar() {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.str_discover_rank));
         toolbar.setTitleTextColor(Color.WHITE);
@@ -54,19 +54,19 @@ public class RankActivity extends AppCompatActivity implements RankListContract.
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void initView(){
+    private void initView() {
         rankListRecycler = findViewById(R.id.rank_list_recycler);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         rankListRecycler.setLayoutManager(manager);
     }
 
-    private void addListener(){
+    private void addListener() {
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 break;
@@ -83,22 +83,12 @@ public class RankActivity extends AppCompatActivity implements RankListContract.
     @Override
     public void showSucceed(RankingList rankingList) {
         this.rankingList = rankingList;
-        adapter = new RankListRecyclerAdapter(this,rankingList);
+        adapter = new RankListRecyclerAdapter(this, rankingList);
         rankListRecycler.setAdapter(adapter);
     }
 
     @Override
-    public void showSucceed() {
-
-    }
-
-    @Override
     public void showError() {
-
-    }
-
-    @Override
-    public void showComplete() {
 
     }
 }

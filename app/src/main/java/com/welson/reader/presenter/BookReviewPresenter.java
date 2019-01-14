@@ -10,14 +10,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class BookReviewPresenter extends AbstractPresenter implements BookReviewContract.Presenter{
+public class BookReviewPresenter extends AbstractPresenter implements BookReviewContract.Presenter {
 
     private BookReviewContract.View view;
 
     @Override
     public void requestData(String duration, String sort, String type, int start, int limit, String distillate) {
         if (view == null) return;
-        RetrofitHelper.getInstance().getBookReviewList(duration,sort,type,start,limit,distillate)
+        RetrofitHelper.getInstance().getBookReviewList(duration, sort, type, start, limit, distillate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BookReviewList>() {
@@ -51,7 +51,7 @@ public class BookReviewPresenter extends AbstractPresenter implements BookReview
 
     @Override
     public void detachView() {
-        if(view != null){
+        if (view != null) {
             view = null;
         }
     }

@@ -22,7 +22,7 @@ public class BookDetailHotReviewRecyclerAdapter extends RecyclerView.Adapter<Boo
     private Context context;
     private ArrayList<HotReview.Review> reviews;
 
-    public BookDetailHotReviewRecyclerAdapter(Context context, ArrayList<HotReview.Review> reviews){
+    public BookDetailHotReviewRecyclerAdapter(Context context, ArrayList<HotReview.Review> reviews) {
         this.context = context;
         this.reviews = reviews;
     }
@@ -31,14 +31,14 @@ public class BookDetailHotReviewRecyclerAdapter extends RecyclerView.Adapter<Boo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.book_detail_hot_review_item
-                ,viewGroup,false);
+                , viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        GlideUtil.loadImage(context, Constants.IMG_BASE_URL+reviews.get(i).getAuthor().getAvatar()
-                ,viewHolder.image);
+        GlideUtil.loadImage(context, Constants.IMG_BASE_URL + reviews.get(i).getAuthor().getAvatar()
+                , viewHolder.image);
         viewHolder.author.setText(reviews.get(i).getAuthor().getNickname());
         viewHolder.title.setText(reviews.get(i).getTitle());
         viewHolder.content.setText(reviews.get(i).getContent());
@@ -46,16 +46,17 @@ public class BookDetailHotReviewRecyclerAdapter extends RecyclerView.Adapter<Boo
         viewHolder.ratingBar.setRating(reviews.get(i).getRating());
     }
 
-    private String getZanCount(int totalCount){
+    private String getZanCount(int totalCount) {
         int result = totalCount > 0 ? totalCount : 0;
         return String.valueOf(result);
     }
+
     @Override
     public int getItemCount() {
         return reviews.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView image;
         TextView author;
         TextView title;

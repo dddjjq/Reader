@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.welson.reader.base.BasePresenter;
 import com.welson.reader.base.BaseView;
 
-public abstract class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment {
 
     @Nullable
     @Override
@@ -35,7 +35,10 @@ public abstract class BaseFragment extends Fragment{
 
 
     public abstract int setLayout();
+
     public abstract void initView(View view);
+
     public abstract void initData();
+
     public abstract void addListener();
 }

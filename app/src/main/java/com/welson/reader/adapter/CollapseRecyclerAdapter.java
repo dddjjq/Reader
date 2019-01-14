@@ -17,12 +17,12 @@ import com.welson.reader.util.GlideUtil;
 
 import java.util.ArrayList;
 
-public class CollapseRecyclerAdapter extends RecyclerView.Adapter<CollapseRecyclerAdapter.ViewHolder>{
+public class CollapseRecyclerAdapter extends RecyclerView.Adapter<CollapseRecyclerAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<RankingList.Rank> ranks;
 
-    public CollapseRecyclerAdapter(Context context, ArrayList<RankingList.Rank> ranks){
+    public CollapseRecyclerAdapter(Context context, ArrayList<RankingList.Rank> ranks) {
         this.context = context;
         this.ranks = ranks;
     }
@@ -30,13 +30,13 @@ public class CollapseRecyclerAdapter extends RecyclerView.Adapter<CollapseRecycl
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.rank_collapse_item,viewGroup,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.rank_collapse_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        GlideUtil.loadImage(context, Constants.IMG_BASE_URL+ranks.get(i).getCover(),viewHolder.collapseItemImage);
+        GlideUtil.loadImage(context, Constants.IMG_BASE_URL + ranks.get(i).getCover(), viewHolder.collapseItemImage);
         viewHolder.collapseItemText.setText(ranks.get(i).getTitle());
         viewHolder.collapseItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,7 +51,7 @@ public class CollapseRecyclerAdapter extends RecyclerView.Adapter<CollapseRecycl
         return ranks.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private LinearLayout collapseItemLayout;
         private ImageView collapseItemImage;

@@ -22,7 +22,7 @@ public class CommunityPopRecyclerAdapter extends RecyclerView.Adapter<CommunityP
     private int currentItem;
     private OnItemClickListener onItemClickListener;
 
-    public CommunityPopRecyclerAdapter(Context context, List<String> items,int currentItem) {
+    public CommunityPopRecyclerAdapter(Context context, List<String> items, int currentItem) {
         this.context = context;
         this.items = items;
         this.currentItem = currentItem;
@@ -31,16 +31,16 @@ public class CommunityPopRecyclerAdapter extends RecyclerView.Adapter<CommunityP
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.pop_community_top_item,viewGroup,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.pop_community_top_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final int position = i;
-        if (currentItem == i){
+        if (currentItem == i) {
             viewHolder.item.setTextColor(context.getResources().getColor(R.color.colorMain));
-        }else {
+        } else {
             viewHolder.item.setTextColor(Color.parseColor("#A3A3A3"));
         }
         viewHolder.item.setText(items.get(i));
@@ -58,7 +58,7 @@ public class CommunityPopRecyclerAdapter extends RecyclerView.Adapter<CommunityP
         return items.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView item;
         private RelativeLayout layout;
@@ -70,11 +70,11 @@ public class CommunityPopRecyclerAdapter extends RecyclerView.Adapter<CommunityP
         }
     }
 
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void onItemClick(int item);
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 }

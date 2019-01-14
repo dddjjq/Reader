@@ -6,11 +6,11 @@ import com.welson.reader.entity.BookDetail;
 import com.welson.reader.entity.BookDetailEntity;
 
 public class BookDetailContract {
-    public interface Presenter extends BasePresenter{
+    public interface Presenter extends BasePresenter {
         void requestBookData(String id);
     }
 
-    public interface View extends BaseView{
+    public interface View extends BaseView {
         void showSucceed(BookDetailEntity bookDetailEntity);
     }
 }

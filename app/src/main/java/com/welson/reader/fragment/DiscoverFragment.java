@@ -10,7 +10,7 @@ import com.welson.reader.R;
 import com.welson.reader.activity.MainActivity;
 import com.welson.reader.activity.RankActivity;
 
-public class DiscoverFragment extends BaseFragment implements View.OnClickListener{
+public class DiscoverFragment extends BaseFragment implements View.OnClickListener {
 
     private RelativeLayout rankItem;
     private RelativeLayout bookListItem;
@@ -47,10 +47,10 @@ public class DiscoverFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.discover_rank_item:
                 Intent intent = new Intent(getActivity(), RankActivity.class);
-                startActivityForResult(intent,REQUEST_CODE);
+                startActivityForResult(intent, REQUEST_CODE);
                 //startActivity(intent);
                 break;
             case R.id.discover_book_list_item:
@@ -65,7 +65,7 @@ public class DiscoverFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             activity.setCurrentPage(2);
         }
     }
