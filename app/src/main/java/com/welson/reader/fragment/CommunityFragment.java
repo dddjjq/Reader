@@ -57,6 +57,7 @@ public class CommunityFragment extends BaseFragment implements View.OnClickListe
             case R.id.community_comment_item:
                 Intent intent2 = new Intent(getContext(), BookReviewActivity.class);
                 startActivity(intent2);
+                getActivity().overridePendingTransition(R.anim.window_enter_anim, 0);
                 break;
             case R.id.community_helper_item:
 

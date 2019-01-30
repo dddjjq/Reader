@@ -1,26 +1,42 @@
 package com.welson.reader.activity;
 
 import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.welson.reader.R;
 import com.welson.reader.adapter.BookReviewRecyclerAdapter;
 import com.welson.reader.contract.BookReviewContract;
 import com.welson.reader.entity.BookReviewList;
+import com.welson.reader.fragment.BookReviewDialogFragment;
 import com.welson.reader.presenter.BookReviewPresenter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class BookReviewActivity extends AppCompatActivity implements BookReviewContract.View {
+public class BookReviewActivity extends AppCompatActivity implements BookReviewContract.View,
+        View.OnClickListener, BookReviewDialogFragment.OnDataChangeListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private BookReviewPresenter presenter;
+    private Toolbar toolbar;
+    private LinearLayout reviewTopLeft, reviewTopMiddle, reviewTopRight;
+    private TextView reviewTopLeftTitle, reviewTopMiddleTitle, reviewTopRightTitle;
+    private ImageView reviewTopLeftImage, reviewTopMiddleImage, reviewTopRightImage;
     private BookReviewRecyclerAdapter adapter;
     private ArrayList<BookReviewList.Review> reviews;
     private String duration = "all";
@@ -29,6 +45,12 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
     private int start = 0;
     private int limit = 20;
     private String distillate = "";
+    private List<String> leftItem;
+    private List<String> middleItem;
+    private List<String> rightItem;
+    private BookReviewDialogFragment dialogFragment;
+    private FragmentManager fragmentManager;
+    private int currentLeft,currentMiddle,currentRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +65,32 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
         recyclerView = findViewById(R.id.book_review_recycler);
         swipeRefreshLayout = findViewById(R.id.comment_refresh_layout);
         swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN);
+        toolbar = findViewById(R.id.toolbar);
+        reviewTopLeft = findViewById(R.id.book_review_top_left);
+        reviewTopLeftImage = findViewById(R.id.book_review_top_left_image);
+        reviewTopLeftTitle = findViewById(R.id.book_review_top_left_text);
+        reviewTopRight = findViewById(R.id.book_review_top_right);
+        reviewTopRightImage = findViewById(R.id.book_review_top_right_image);
+        reviewTopRightTitle = findViewById(R.id.book_review_top_right_text);
+        reviewTopMiddle = findViewById(R.id.book_review_top_middle);
+        reviewTopMiddleImage = findViewById(R.id.book_review_top_middle_image);
+        reviewTopMiddleTitle = findViewById(R.id.book_review_top_middle_text);
+        toolbar.setTitle("书评区");
+        toolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void initData() {
         reviews = new ArrayList<>();
         presenter = new BookReviewPresenter();
         presenter.attachView(this);
-        presenter.requestData(duration, sort, type, start, limit, distillate);
+        notifyChange();
+        fragmentManager = getSupportFragmentManager();
+        leftItem = Arrays.asList(getResources().getStringArray(R.array.str_arr_comment_top_left));
+        middleItem = Arrays.asList(getResources().getStringArray(R.array.str_arr_comment_top_middle));
+        rightItem = Arrays.asList(getResources().getStringArray(R.array.str_arr_comment_top_right));
         adapter = new BookReviewRecyclerAdapter(reviews, this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
@@ -64,6 +105,9 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
                 presenter.requestData(duration, sort, type, start, limit, distillate);
             }
         });
+        reviewTopLeft.setOnClickListener(this);
+        reviewTopMiddle.setOnClickListener(this);
+        reviewTopRight.setOnClickListener(this);
     }
 
     @Override
@@ -89,4 +133,100 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.window_exit_anim);
+    }
+
+    @Override
+    public void onClick(View v) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        switch (v.getId()) {
+            case R.id.book_review_top_left:
+                dialogFragment = new BookReviewDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("titleId", 0);
+                bundle.putInt("currentItem",currentLeft);
+                dialogFragment.setArguments(bundle);
+                break;
+            case R.id.book_review_top_middle:
+                dialogFragment = new BookReviewDialogFragment();
+                Bundle bundle1 = new Bundle();
+                bundle1.putInt("titleId", 1);
+                bundle1.putInt("currentItem",currentMiddle);
+                dialogFragment.setArguments(bundle1);
+                break;
+            case R.id.book_review_top_right:
+                dialogFragment = new BookReviewDialogFragment();
+                Bundle bundle2 = new Bundle();
+                bundle2.putInt("titleId", 2);
+                bundle2.putInt("currentItem",currentRight);
+                dialogFragment.setArguments(bundle2);
+                break;
+        }
+        transaction.add(dialogFragment, "left");
+        transaction.show(dialogFragment);
+        dialogFragment.setOnDataChangeListener(this);
+        transaction.commit();
+    }
+
+    @Override
+    public void setDuration(String s) {
+        duration = s;
+    }
+
+    @Override
+    public void setSort(String s) {
+        sort = s;
+    }
+
+    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    @Override
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    @Override
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    @Override
+    public void setDistillate(String distillate) {
+        this.distillate = distillate;
+    }
+
+    public void notifyChange(){
+        presenter.requestData(duration, sort, type, start, limit, distillate);
+        swipeRefreshLayout.setRefreshing(true);
+    }
+    public void setLeftTitle(String text,int item){
+        reviewTopLeftTitle.setText(text);
+        currentLeft = item;
+    }
+
+    public void setMiddleTitle(String text,int item){
+        reviewTopMiddleTitle.setText(text);
+        currentMiddle = item;
+    }
+
+    public void setRightTitle(String text,int item){
+        reviewTopRightTitle.setText(text);
+        currentRight = item;
+    }
 }

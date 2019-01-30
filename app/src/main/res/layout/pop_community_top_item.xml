@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="20dp"
-    android:paddingTop="15dp"
-    android:paddingBottom="15dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
     android:id="@+id/pop_community_item_layout">
     <TextView
         android:id="@+id/pop_community_item_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </RelativeLayout>
