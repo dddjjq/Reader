@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferenceUtil.removeKey(this,"currentItem"); // onCreate清掉key
         initView();
         setSupportActionBar(mainToolbar);
         startDownloadService();
@@ -71,7 +72,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        scrollToPage(currentPage);
+        //scrollToPage(currentPage);
+        int currentItem = SharedPreferenceUtil.getInt(this,"currentItem",0);
+        scrollToPage(currentItem);
     }
 
     @Override
@@ -85,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         int currentPage = savedInstanceState.getInt("currentPage");
         viewPager.setCurrentItem(currentPage);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferenceUtil.putInt(this,"currentItem",viewPager.getCurrentItem());
     }
 
     @Override

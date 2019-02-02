@@ -116,7 +116,7 @@ public class BookReviewDialogFragment extends DialogFragment implements BookRevi
                 activity.setRightTitle(currentString, currentItem);
                 break;
         }
-        activity.notifyChange();
+        activity.notifyChange(true);
     }
 
     private List<String> getTitles(int id) {

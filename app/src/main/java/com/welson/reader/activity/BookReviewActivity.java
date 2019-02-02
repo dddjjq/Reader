@@ -10,7 +10,9 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +32,7 @@ import java.util.List;
 public class BookReviewActivity extends AppCompatActivity implements BookReviewContract.View,
         View.OnClickListener, BookReviewDialogFragment.OnDataChangeListener {
 
+    private static final String TAG = BookReviewActivity.class.getSimpleName();
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private BookReviewPresenter presenter;
@@ -45,12 +48,10 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
     private int start = 0;
     private int limit = 20;
     private String distillate = "";
-    private List<String> leftItem;
-    private List<String> middleItem;
-    private List<String> rightItem;
     private BookReviewDialogFragment dialogFragment;
     private FragmentManager fragmentManager;
-    private int currentLeft,currentMiddle,currentRight;
+    private int currentLeft, currentMiddle, currentRight;
+    private boolean isClearData = true; //是否清除数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,11 +87,8 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
         reviews = new ArrayList<>();
         presenter = new BookReviewPresenter();
         presenter.attachView(this);
-        notifyChange();
+        notifyChange(true);
         fragmentManager = getSupportFragmentManager();
-        leftItem = Arrays.asList(getResources().getStringArray(R.array.str_arr_comment_top_left));
-        middleItem = Arrays.asList(getResources().getStringArray(R.array.str_arr_comment_top_middle));
-        rightItem = Arrays.asList(getResources().getStringArray(R.array.str_arr_comment_top_right));
         adapter = new BookReviewRecyclerAdapter(reviews, this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
@@ -102,7 +100,9 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                start = 0;
                 presenter.requestData(duration, sort, type, start, limit, distillate);
+                isClearData = true;
             }
         });
         reviewTopLeft.setOnClickListener(this);
@@ -121,7 +121,9 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
         if (swipeRefreshLayout.isRefreshing()) {
             swipeRefreshLayout.setRefreshing(false);
         }
-        reviews.clear();
+        if (isClearData){
+            reviews.clear();
+        }
         reviews.addAll(bookReviewList.getReviews());
         adapter.notifyDataSetChanged();
     }
@@ -157,21 +159,21 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
                 dialogFragment = new BookReviewDialogFragment();
                 Bundle bundle = new Bundle();
                 bundle.putInt("titleId", 0);
-                bundle.putInt("currentItem",currentLeft);
+                bundle.putInt("currentItem", currentLeft);
                 dialogFragment.setArguments(bundle);
                 break;
             case R.id.book_review_top_middle:
                 dialogFragment = new BookReviewDialogFragment();
                 Bundle bundle1 = new Bundle();
                 bundle1.putInt("titleId", 1);
-                bundle1.putInt("currentItem",currentMiddle);
+                bundle1.putInt("currentItem", currentMiddle);
                 dialogFragment.setArguments(bundle1);
                 break;
             case R.id.book_review_top_right:
                 dialogFragment = new BookReviewDialogFragment();
                 Bundle bundle2 = new Bundle();
                 bundle2.putInt("titleId", 2);
-                bundle2.putInt("currentItem",currentRight);
+                bundle2.putInt("currentItem", currentRight);
                 dialogFragment.setArguments(bundle2);
                 break;
         }
@@ -211,22 +213,25 @@ public class BookReviewActivity extends AppCompatActivity implements BookReviewC
         this.distillate = distillate;
     }
 
-    public void notifyChange(){
+    public void notifyChange(boolean isClear) {
+        this.isClearData = isClear;
         presenter.requestData(duration, sort, type, start, limit, distillate);
         swipeRefreshLayout.setRefreshing(true);
     }
-    public void setLeftTitle(String text,int item){
+
+    public void setLeftTitle(String text, int item) {
         reviewTopLeftTitle.setText(text);
         currentLeft = item;
     }
 
-    public void setMiddleTitle(String text,int item){
+    public void setMiddleTitle(String text, int item) {
         reviewTopMiddleTitle.setText(text);
         currentMiddle = item;
     }
 
-    public void setRightTitle(String text,int item){
+    public void setRightTitle(String text, int item) {
         reviewTopRightTitle.setText(text);
         currentRight = item;
     }
+
 }
